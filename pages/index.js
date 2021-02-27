@@ -1,18 +1,13 @@
-import Link from 'next/link'
+import { Flex, Button, useColorMode } from "@chakra-ui/react";
 
 export default function Home() {
+  const { toggleColorMode } = useColorMode();
+
   return (
-    <ul>
-      <li>
-        <Link href="/b" as="/a">
-          <a>a</a>
-        </Link>
-      </li>
-      <li>
-        <Link href="/a" as="/b">
-          <a>b</a>
-        </Link>
-      </li>
-    </ul>
-  )
+    <Flex width="full" height="100vh" align="center" justifyContent="center">
+      <Button onClick={toggleColorMode} right="0" top="0">
+        Toggle Mode
+      </Button>
+    </Flex>
+  );
 }

@@ -1,28 +1,28 @@
-const express = require('express')
-const next = require('next')
+const socketIO = require("socket.io");
+const express = require("express");
+const next = require("next");
+const http = require("http");
 
-const port = parseInt(process.env.PORT, 10) || 3000
-const dev = process.env.NODE_ENV !== 'production'
-const app = next({ dev })
-const handle = app.getRequestHandler()
+const port = parseInt(process.env.PORT, 10) || 3000;
+const dev = process.env.NODE_ENV !== "production";
+const app = next({ dev });
+const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
-  const server = express()
+  const exApp = express();
 
-  server.get('/a', (req, res) => {
-    return app.render(req, res, '/a', req.query)
-  })
+  exApp.all("*", (req, res) => {
+    return handle(req, res);
+  });
 
-  server.get('/b', (req, res) => {
-    return app.render(req, res, '/b', req.query)
-  })
-
-  server.all('*', (req, res) => {
-    return handle(req, res)
-  })
+  const server = http.createServer(exApp);
 
   server.listen(port, (err) => {
-    if (err) throw err
-    console.log(`> Ready on http://localhost:${port}`)
-  })
-})
+    if (err) throw err;
+    console.log(`> Ready on http://localhost:${port}`);
+  });
+
+  const Sock = socketIO(server);
+
+  Sock.on("connection", (socc) => {});
+});
