@@ -1,12 +1,21 @@
 import { useRef, useEffect } from "react";
 import { io } from "socket.io-client";
-import { Flex, Box, HStack, Button, useColorMode } from "@chakra-ui/react";
+import {
+  Flex,
+  Box,
+  HStack,
+  Button,
+  useColorMode,
+  useColorModeValue,
+} from "@chakra-ui/react";
 
 const socket = io();
 
 export default function Home() {
   const { toggleColorMode } = useColorMode();
   const ref = useRef();
+
+  const CardColor = useColorModeValue("gray.50", "gray.900");
 
   useEffect(() => {
     const curr = ref.current;
@@ -54,7 +63,7 @@ export default function Home() {
         boxShadow="lg"
         borderWidth={1}
         borderRadius={8}
-        backgroundColor="#fff"
+        backgroundColor={CardColor}
       >
         <HStack>
           <Button onClick={toggleColorMode}>Toggle Dark Mode</Button>
