@@ -4,7 +4,7 @@ const robot = require("robotjs");
 const next = require("next");
 const http = require("http");
 
-const gcd = (a, b) => (b == 0 ? a : gcd(b, a % b));
+const gcd = require("./utils/gcd");
 const screenSize = robot.getScreenSize();
 
 const ratio = gcd(screenSize.width, screenSize.height);
