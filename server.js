@@ -36,5 +36,7 @@ app.prepare().then(() => {
 
     socc.on("touchstart", moveMouse);
     socc.on("touchmove", moveMouse);
+
+    socc.on("check:ping", () => socc.emit("check:pong"));
   });
 });

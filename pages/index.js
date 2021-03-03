@@ -1,24 +1,30 @@
-import { useRef, useEffect } from "react";
-import { io } from "socket.io-client";
+import { useRef, useEffect, useState, useContext } from "react";
+import SocketContext from "../context/socket";
 import {
-  Flex,
   Box,
+  Flex,
+  VStack,
   HStack,
   Button,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
 
-const socket = io();
+let startTime = 0;
 
 export default function Home() {
   const { toggleColorMode } = useColorMode();
+  const socket = useContext(SocketContext);
+  const [latency, setLAT] = useState();
   const ref = useRef();
 
   const CardColor = useColorModeValue("gray.50", "gray.900");
 
   useEffect(() => {
+    let interval;
     const curr = ref.current;
+
+    const pongFunc = () => setLAT(Date.now() - startTime);
 
     const handleTouchStart = (evt) => {
       const x = evt.touches[0].clientX;
@@ -43,12 +49,21 @@ export default function Home() {
       socket.emit("touchmove", position);
     };
 
+    interval = setInterval(() => {
+      startTime = Date.now();
+      socket.emit("check:ping");
+    }, 2000);
+
+    socket.on("check:pong", pongFunc);
+
     curr.addEventListener("touchstart", handleTouchStart, false);
     curr.addEventListener("touchmove", handleTouchMove, false);
 
     return () => {
       curr.removeEventListener("touchstart", handleTouchStart);
       curr.removeEventListener("touchmove", handleTouchMove);
+      socket.off('check:pong', pongFunc)
+      clearInterval(interval);
     };
   }, []);
 
@@ -65,14 +80,19 @@ export default function Home() {
         borderRadius={8}
         backgroundColor={CardColor}
       >
-        <HStack>
-          <Button onClick={toggleColorMode}>Toggle Dark Mode</Button>
-          <Button
-            onClick={() => ref.current && ref.current.requestFullscreen()}
-          >
-            Fullscreen
-          </Button>
-        </HStack>
+        <VStack direction={"row"} align="stretch" spacing="65vh">
+          <HStack>
+            <Button onClick={toggleColorMode}>Toggle Dark Mode</Button>
+            <Button
+              onClick={() => ref.current && ref.current.requestFullscreen()}
+            >
+              Fullscreen
+            </Button>
+          </HStack>
+          <HStack>
+            <p>Ping: {JSON.stringify(latency)}</p>
+          </HStack>
+        </VStack>
       </Box>
     </Flex>
   );
