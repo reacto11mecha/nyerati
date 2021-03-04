@@ -3,6 +3,7 @@ import SocketContext from "../context/socket";
 import {
   Box,
   Flex,
+  Text,
   VStack,
   HStack,
   Button,
@@ -14,15 +15,25 @@ let startTime = 0;
 
 export default function Home() {
   const { toggleColorMode } = useColorMode();
+  const [connected, setCON] = useState(null);
+  const [latency, setLAT] = useState("N/A");
   const socket = useContext(SocketContext);
-  const [latency, setLAT] = useState();
   const ref = useRef();
 
   const CardColor = useColorModeValue("gray.50", "gray.900");
+  const bgConnected = {
+    na: useColorModeValue("gray.200", "gray.600"),
+    connected: useColorModeValue("green.300", "green.600"),
+    disconnected: useColorModeValue("red.400", "red.800"),
+  };
 
   useEffect(() => {
     let interval;
     const curr = ref.current;
+
+    const sendScreen = () =>
+      socket.emit("screen", { width: screen.width, height: screen.height });
+    sendScreen();
 
     const pongFunc = () => setLAT(Date.now() - startTime);
 
@@ -48,6 +59,7 @@ export default function Home() {
 
       socket.emit("touchmove", position);
     };
+    const connection = () => setCON(socket.connected);
 
     interval = setInterval(() => {
       startTime = Date.now();
@@ -55,14 +67,20 @@ export default function Home() {
     }, 2000);
 
     socket.on("check:pong", pongFunc);
+    socket.on("connect", connection);
+    socket.on("disconnect", connection);
 
     curr.addEventListener("touchstart", handleTouchStart, false);
     curr.addEventListener("touchmove", handleTouchMove, false);
+    window.addEventListener("orientationchange", sendScreen, false);
 
     return () => {
       curr.removeEventListener("touchstart", handleTouchStart);
       curr.removeEventListener("touchmove", handleTouchMove);
-      socket.off('check:pong', pongFunc)
+      window.removeEventListener("orientationchange", sendScreen);
+      socket.off("check:pong", pongFunc);
+      socket.off("connect", connection);
+      socket.off("disconnect", connection);
       clearInterval(interval);
     };
   }, []);
@@ -80,7 +98,7 @@ export default function Home() {
         borderRadius={8}
         backgroundColor={CardColor}
       >
-        <VStack direction={"row"} align="stretch" spacing="65vh">
+        <VStack direction={"row"} align="stretch" spacing="60vh">
           <HStack>
             <Button onClick={toggleColorMode}>Toggle Dark Mode</Button>
             <Button
@@ -90,7 +108,29 @@ export default function Home() {
             </Button>
           </HStack>
           <HStack>
-            <p>Ping: {JSON.stringify(latency)}</p>
+            <Box
+              borderWidth={1}
+              borderRadius={8}
+              width={connected ? "6.5rem" : "7.8rem"}
+              height="3rem"
+              backgroundColor={
+                connected === null
+                  ? bgConnected.na
+                  : connected
+                  ? bgConnected.connected
+                  : bgConnected.disconnected
+              }
+            >
+              <Flex height="100%" justifyContent="center" align="center">
+                <Text>
+                  {connected === null && "N/A"}
+                  {connected && connected !== null
+                    ? "CONNECTED"
+                    : "DISCONNECTED"}
+                </Text>
+              </Flex>
+            </Box>
+            <Text>Ping: {JSON.stringify(latency)}</Text>
           </HStack>
         </VStack>
       </Box>

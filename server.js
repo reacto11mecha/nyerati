@@ -4,16 +4,26 @@ const robot = require("robotjs");
 const next = require("next");
 const http = require("http");
 
-const gcd = require("./utils/gcd");
+const extrapolate = require("./utils/extrapolate");
 const screenSize = robot.getScreenSize();
 
-const ratio = gcd(screenSize.width, screenSize.height);
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
 
-const moveMouse = (data) => robot.moveMouse(data.x * ratio, data.y * ratio);
+let phoneWidth = null;
+let phoneHeight = null;
+
+const moveMouse = (data) => {
+  if (!phoneWidth || !phoneHeight) return;
+  const coord = extrapolate(
+    data,
+    { width: phoneWidth, height: phoneHeight },
+    screenSize
+  );
+  robot.moveMouse(coord.x, coord.y);
+};
 
 app.prepare().then(() => {
   const exApp = express();
@@ -38,5 +48,8 @@ app.prepare().then(() => {
     socc.on("touchmove", moveMouse);
 
     socc.on("check:ping", () => socc.emit("check:pong"));
+    socc.on("screen", (data) => {
+      (phoneHeight = data.height), (phoneWidth = data.width);
+    });
   });
 });
