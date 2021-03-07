@@ -123,10 +123,12 @@ export default function Home() {
             >
               <Flex height="100%" justifyContent="center" align="center">
                 <Text>
-                  {connected === null && "N/A"}
-                  {connected && connected !== null
-                    ? "CONNECTED"
-                    : "DISCONNECTED"}
+                  {(() => {
+                    if (typeof connected === "boolean")
+                      return connected ? "CONNECTED" : "DISCONNECTED";
+
+                    return "N/A";
+                  })()}
                 </Text>
               </Flex>
             </Box>
