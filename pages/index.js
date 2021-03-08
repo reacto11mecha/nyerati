@@ -16,7 +16,7 @@ let startTime = 0;
 export default function Home() {
   const { toggleColorMode } = useColorMode();
   const [connected, setCON] = useState(null);
-  const [latency, setLAT] = useState("N/A");
+  const [latency, setLAT] = useState(null);
   const socket = useContext(SocketContext);
   const ref = useRef();
 
@@ -31,33 +31,13 @@ export default function Home() {
     let interval;
     const curr = ref.current;
 
-    const sendScreen = () =>
-      socket.emit("screen", { width: screen.width, height: screen.height });
-    sendScreen();
-
     const pongFunc = () => setLAT(Date.now() - startTime);
 
-    const handleTouchStart = (evt) => {
-      const x = evt.touches[0].clientX;
-      const y = evt.touches[0].clientY;
-
-      const position = {
-        x,
-        y,
-      };
-
-      socket.emit("touchstart", position);
-    };
-    const handleTouchMove = (evt) => {
-      const x = evt.touches[0].clientX;
-      const y = evt.touches[0].clientY;
-
-      const position = {
-        x,
-        y,
-      };
-
-      socket.emit("touchmove", position);
+    const handleTouch = (evt) => {
+      socket.emit("touch", {
+        x: evt.touches[0].clientX / screen.width,
+        y: evt.touches[0].clientY / screen.height,
+      });
     };
     const connection = () => setCON(socket.connected);
 
@@ -70,14 +50,12 @@ export default function Home() {
     socket.on("connect", connection);
     socket.on("disconnect", connection);
 
-    curr.addEventListener("touchstart", handleTouchStart, false);
-    curr.addEventListener("touchmove", handleTouchMove, false);
-    window.addEventListener("orientationchange", sendScreen, false);
+    curr.addEventListener("touchstart", handleTouch, false);
+    curr.addEventListener("touchmove", handleTouch, false);
 
     return () => {
-      curr.removeEventListener("touchstart", handleTouchStart);
-      curr.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("orientationchange", sendScreen);
+      curr.removeEventListener("touchstart", handleTouch);
+      curr.removeEventListener("touchmove", handleTouch);
       socket.off("check:pong", pongFunc);
       socket.off("connect", connection);
       socket.off("disconnect", connection);
@@ -123,16 +101,17 @@ export default function Home() {
             >
               <Flex height="100%" justifyContent="center" align="center">
                 <Text>
-                  {(() => {
-                    if (typeof connected === "boolean")
-                      return connected ? "CONNECTED" : "DISCONNECTED";
-
-                    return "N/A";
-                  })()}
+                  {connected === null
+                    ? "N/A"
+                    : connected
+                    ? "CONNECTED"
+                    : "DISCONNECTED"}
                 </Text>
               </Flex>
             </Box>
-            <Text>Ping: {JSON.stringify(latency)}</Text>
+            <Text>
+              Ping: {latency === null ? "N/A" : JSON.stringify(latency)}
+            </Text>
           </HStack>
         </VStack>
       </Box>
