@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 
-const recordFolder = path.join(__dirname, "record");
+const recordFolder = path.join(__dirname, "..", "record");
 const recordText = path.join(recordFolder, "coord.txt");
 const recordJSON = path.join(recordFolder, "convert.json");
 
