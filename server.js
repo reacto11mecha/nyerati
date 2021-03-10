@@ -1,4 +1,4 @@
-var child_process = require("child_process");
+const child_process = require("child_process");
 const socketIO = require("socket.io");
 const express = require("express");
 const robot = require("robotjs");
