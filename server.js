@@ -28,13 +28,16 @@ switch (record) {
     });
 }
 
-const moveMouse = (data) => {
-  robot.moveMouse(data.x * COMPwidth, data.y * COMPheight);
-  switch (record) {
-    case "record":
-      writer.send({ ...data, d: Date.now() });
-  }
-};
+const moveMouse = (() => {
+  if (record !== "record")
+    return (data) =>
+      void robot.moveMouse(data.x * COMPwidth, data.y * COMPheight);
+
+  return (data) => {
+    robot.moveMouse(data.x * COMPwidth, data.y * COMPheight);
+    writer.send({ ...data, d: Date.now() });
+  };
+})();
 
 app.prepare().then(() => {
   const exApp = express();
