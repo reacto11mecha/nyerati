@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState, useContext } from "react";
+import { useRef, useEffect, useState, useContext, useMemo, memo } from "react";
 import SocketContext from "../context/socket";
 import {
   Box,
@@ -13,7 +13,14 @@ import {
 
 let startTime = 0;
 
-export default function Home() {
+const Ping = memo(
+  ({ latency }) => (
+    <Text>Ping: {latency === null ? "N/A" : JSON.stringify(latency)}</Text>
+  ),
+  (prevProps, nextProps) => prevProps.latency === nextProps.latency
+);
+
+function Home() {
   const { toggleColorMode } = useColorMode();
   const [connected, setCON] = useState(null);
   const [latency, setLAT] = useState(null);
@@ -78,9 +85,14 @@ export default function Home() {
       >
         <VStack direction={"row"} align="stretch" spacing="60vh">
           <HStack>
-            <Button onClick={toggleColorMode}>Toggle Dark Mode</Button>
+            <Button onClick={useMemo(() => toggleColorMode)}>
+              Toggle Dark Mode
+            </Button>
             <Button
-              onClick={() => ref.current && ref.current.requestFullscreen()}
+              onClick={useMemo(
+                () => ref.current && ref.current.requestFullscreen(),
+                [ref]
+              )}
             >
               Fullscreen
             </Button>
@@ -109,12 +121,12 @@ export default function Home() {
                 </Text>
               </Flex>
             </Box>
-            <Text>
-              Ping: {latency === null ? "N/A" : JSON.stringify(latency)}
-            </Text>
+            <Ping latency={latency} />
           </HStack>
         </VStack>
       </Box>
     </Flex>
   );
 }
+
+export default memo(Home);
