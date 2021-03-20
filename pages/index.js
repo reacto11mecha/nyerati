@@ -1,4 +1,12 @@
-import { useRef, useEffect, useState, useContext, useMemo, memo } from "react";
+import {
+  useRef,
+  useEffect,
+  useState,
+  useContext,
+  useCallback,
+  useMemo,
+  memo,
+} from "react";
 import SocketContext from "../context/socket";
 import {
   Box,
@@ -89,9 +97,8 @@ function Home() {
               Toggle Dark Mode
             </Button>
             <Button
-              onClick={useMemo(
-                () => ref.current && ref.current.requestFullscreen(),
-                [ref]
+              onClick={useCallback(
+                () => ref.current && ref.current.requestFullscreen()
               )}
             >
               Fullscreen
