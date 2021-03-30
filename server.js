@@ -14,6 +14,7 @@ const dev = process.env.NODE_ENV !== "production";
 const record = process.env.RECORD;
 const recordFolder = path.join(__dirname, "record");
 const recordText = path.join(recordFolder, "coord.txt");
+const recordJson = path.join(recordFolder, "convert.json");
 const app = next({ dev });
 const handle = app.getRequestHandler();
 const writer = child_process.fork("./functions/writer");
@@ -41,6 +42,19 @@ const moveMouse = (() => {
 
 app.prepare().then(() => {
   const exApp = express();
+
+  exApp.get("/api/coord", (req, res) => {
+    if (!fs.existsSync(recordJson)) {
+      res.status(200).json({ error: "Recorded file not found" });
+    } else {
+      const Dat = require(recordJson);
+      const data = Dat.map((dat, idx) => ({
+        ...dat,
+        diff: idx == 0 ? 0 : dat.d - Dat[idx - 1].d,
+      }));
+      res.status(200).json(data);
+    }
+  });
 
   exApp.all("*", (req, res) => {
     return handle(req, res);
