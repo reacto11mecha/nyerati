@@ -1,61 +1,52 @@
-import { useRef, useContext, useEffect, useState } from "react";
-import { Flex, Box, VStack, useColorModeValue } from "@chakra-ui/react";
-import SocketContext from "../context/socket";
+import useReplay from "../components/hooks/useReplay";
+import { useRef, useEffect } from "react";
+import { Flex, Button } from "@chakra-ui/react";
+import axios from "axios";
 
-export default function Replay() {
-  const io = useContext(SocketContext);
-  const box = useRef();
-  const canvas = useRef();
-  const [canvasSize, setCNS] = useState({
-    width: 100,
-    height: 100,
-  });
-
-  const CardColor = useColorModeValue("gray.50", "gray.900");
+export default function Replay({ coord }) {
+  const canvasRef = useRef();
+  const { position, playing, toggle } = useReplay(coord);
 
   useEffect(() => {
-    io.disconnect();
-    const curr = box.current;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
 
-    const update = () =>
-      void setCNS((prevStates) => ({
-        ...prevStates,
-        width: curr.offsetWidth,
-        height: curr.offsetHeight,
-      }));
+    const x = position.x * canvas.width;
+    const y = position.y * canvas.height;
 
-    update();
-
-    window.addEventListener("resize", update);
-
-    return () => {
-      window.removeEventListener("resize", update);
-    };
-  }, []);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#171923";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.arc(x, y, 10, 0, Math.PI * 2);
+    ctx.fillStyle = "#38B2AC";
+    ctx.fill();
+    ctx.closePath();
+  }, [position]);
 
   return (
     <Flex width="full" height="100vh" align="center" justifyContent="center">
-      <Box
-        ref={box}
-        p={8}
-        top="50%"
-        width="75%"
-        height="95%"
-        boxShadow="lg"
-        borderWidth={1}
-        borderRadius={8}
-        backgroundColor={CardColor}
-      >
-        <VStack direction={"row"} align="stretch" spacing="60vh">
-          {box.current && (
-            <canvas
-              width={canvasSize.width}
-              height={canvasSize.height}
-              ref={canvas}
-            ></canvas>
-          )}
-        </VStack>
-      </Box>
+      <canvas
+        ref={canvasRef}
+        width="640"
+        height="480"
+        style={{
+          border: "3.5px solid #171923",
+          backgroundColor: "#171923",
+          borderRadius: "5px",
+        }}
+      />
+      <Button onClick={toggle} marginLeft="20px">
+        {playing ? "Stop" : "Play"}
+      </Button>
     </Flex>
   );
+}
+
+export async function getServerSideProps() {
+  const coord = await axios
+    .get("http://localhost:3000/api/coord")
+    .then((res) => res.data);
+
+  return { props: { coord } };
 }
