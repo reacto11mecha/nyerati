@@ -1,6 +1,6 @@
 import { Flex, Button } from "@chakra-ui/react";
 import useReplay from "./hooks/useReplay";
-import { useRef, useEffect, useMemo } from "react";
+import { useRef, useEffect } from "react";
 
 export default function Player({ coord }) {
   const canvasRef = useRef();
