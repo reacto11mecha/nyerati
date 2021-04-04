@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
+import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
 
 const COORDINATE_INITIAL_STATE = {
   x: undefined,
@@ -6,6 +7,9 @@ const COORDINATE_INITIAL_STATE = {
 };
 
 let updaterTimeout;
+const ffmpeg = createFFmpeg({
+  log: true,
+});
 
 export default function useReplay(coordinate, canvasRef) {
   const mediaRecorder = useRef();
@@ -93,14 +97,30 @@ export default function useReplay(coordinate, canvasRef) {
 
     mediaRecorder.current.ondataavailable = (e) =>
       void mediaChunks.current.push(e.data);
-    mediaRecorder.current.onstop = () => {
+    mediaRecorder.current.onstop = async () => {
       const blob = new Blob(mediaChunks.current, { type: "video/webm" });
       mediaChunks.current = [];
-      const videoURL = URL.createObjectURL(blob);
+      const WEBMvideoURL = URL.createObjectURL(blob);
+
+      if (!(await ffmpeg.isLoaded())) await ffmpeg.load();
+      ffmpeg.FS("writeFile", "reply.webm", await fetchFile(WEBMvideoURL));
+      await ffmpeg.run(
+        "-fflags",
+        "+genpts",
+        "-i",
+        "reply.webm",
+        "-r",
+        "24",
+        "reply.mp4"
+      );
+      const data = ffmpeg.FS("readFile", "reply.mp4");
+      const videoUrl = URL.createObjectURL(
+        new Blob([data.buffer], { type: "video/mp4" })
+      );
 
       const link = document.createElement("a");
-      link.href = videoURL;
-      link.download = "replay.webm";
+      link.href = videoUrl;
+      link.download = "replay.mp4";
 
       document.body.appendChild(link);
 
@@ -113,6 +133,13 @@ export default function useReplay(coordinate, canvasRef) {
       );
 
       document.body.removeChild(link);
+      URL.revokeObjectURL(WEBMvideoURL);
+      URL.revokeObjectURL(videoUrl);
+    };
+
+    return () => {
+      mediaChunks.current = [];
+      mediaRecorder.current = undefined;
     };
   }, []);
 
