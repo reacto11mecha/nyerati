@@ -1,4 +1,4 @@
-import { memo, useEffect, useState, useContext } from "react";
+import { memo, useEffect, useState } from "react";
 import SocketContext from "../context/socket";
 import { Flex } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
@@ -8,8 +8,18 @@ const TouchBox = dynamic(() => import("../components/TouchBox"), {
   ssr: false,
 });
 
-function Home() {
-  const socket = useContext(SocketContext);
+const Home = () => (
+  <Flex width="full" height="100vh" align="center" justifyContent="center">
+    <Head>
+      <title>PEN TABLET</title>
+    </Head>
+    <SocketContext.Consumer>
+      {(socket) => <TouchBoxContainer socket={socket} />}
+    </SocketContext.Consumer>
+  </Flex>
+);
+
+function TouchBoxContainer({ socket }) {
   const [connected, setCON] = useState(null);
 
   useEffect(() => {
@@ -23,15 +33,7 @@ function Home() {
       socket.off("disconnect", connection);
     };
   }, []);
-
-  return (
-    <Flex width="full" height="100vh" align="center" justifyContent="center">
-      <Head>
-        <title>PEN TABLET</title>
-      </Head>
-      <TouchBox connected={connected} />
-    </Flex>
-  );
+  return <TouchBox socket={socket} connected={connected} />;
 }
 
 export default memo(Home);

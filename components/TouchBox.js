@@ -1,12 +1,4 @@
-import {
-  useRef,
-  useEffect,
-  useState,
-  useContext,
-  useCallback,
-  useMemo,
-  memo,
-} from "react";
+import { useRef, useEffect, useState, useCallback, useMemo, memo } from "react";
 import {
   Box,
   Flex,
@@ -17,15 +9,13 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import SocketContext from "../context/socket";
 import Ping from "./Ping";
 
 let startTime = 0;
 
-function TouchBox({ connected }) {
+function TouchBox({ socket, connected }) {
   const { toggleColorMode } = useColorMode();
   const [latency, setLAT] = useState(null);
-  const socket = useContext(SocketContext);
   const ref = useRef();
 
   const toggleFullscreen = useCallback(() => {
