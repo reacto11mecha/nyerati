@@ -15,6 +15,8 @@
     "@emotion/styled": "^11.1.5",
     "@ffmpeg/ffmpeg": "^0.9.7",
     "axios": "^0.21.1",
+    "boxen": "^5.0.1",
+    "chalk": "^2.4.2",
     "cross-env": "^7.0.2",
     "express": "^4.17.1",
     "framer-motion": "^3.7.0",
