@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { createFFmpeg, fetchFile } from "@ffmpeg/ffmpeg";
+import raf from "raf";
 
 const COORDINATE_INITIAL_STATE = {
   x: undefined,
   y: undefined,
 };
 
+let _raf;
 let updaterTimeout;
 const ffmpeg = createFFmpeg({
   log: true,
@@ -16,6 +18,8 @@ export default function useReplay(coordinate, canvasRef) {
   const mediaChunks = useRef([]);
   const [playing, setPlaying] = useState(false);
   const [currentCoordinate, setCURRC] = useState(COORDINATE_INITIAL_STATE);
+
+  const clear = useCallback(() => raf.cancel(_raf), [_raf]);
 
   const getEntry = useCallback((idx) => coordinate[idx]);
   const play = useCallback(() => {
@@ -57,12 +61,16 @@ export default function useReplay(coordinate, canvasRef) {
       const nextEntry = getEntry(index);
 
       if (!nextEntry) {
+        clear();
         setTimeout(() => {
           stop();
         }, 1500);
         return;
       }
-      if (!playing) return;
+      if (!playing) {
+        clear();
+        return;
+      }
 
       setCURRC({ x: entry.x, y: entry.y });
       updaterTimeout = setTimeout(processEntry, entry.diff, nextEntry, index);
@@ -77,7 +85,7 @@ export default function useReplay(coordinate, canvasRef) {
         currentCoordinate.y === undefined
       ) {
         const data = getEntry(0);
-        processEntry(data, 0);
+        _raf = raf(() => processEntry(data, 0));
       } else {
         const index =
           coordinate.findIndex(
@@ -85,7 +93,7 @@ export default function useReplay(coordinate, canvasRef) {
           ) + 1;
 
         const data = getEntry(index);
-        processEntry(data, index);
+        _raf = raf(() => processEntry(data, index));
       }
     }
   }, [playing]);
@@ -140,6 +148,7 @@ export default function useReplay(coordinate, canvasRef) {
     return () => {
       mediaChunks.current = [];
       mediaRecorder.current = undefined;
+      clear();
     };
   }, []);
 
