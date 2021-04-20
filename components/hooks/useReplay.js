@@ -73,7 +73,9 @@ export default function useReplay(coordinate, canvasRef) {
       }
 
       setCURRC({ x: entry.x, y: entry.y });
-      updaterTimeout = setTimeout(processEntry, entry.diff, nextEntry, index);
+      updaterTimeout = setTimeout(() => {
+        _raf = raf(() => processEntry(nextEntry, index));
+      }, entry.diff);
     },
     [playing]
   );
