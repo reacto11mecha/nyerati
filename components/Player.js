@@ -25,8 +25,6 @@ export default function Player({ coord }) {
     const canvas = canvasRef.current;
     const ctx = canvas.getContext("2d");
 
-    console.log(canvasColor);
-
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = canvasColor;
   }, [colorMode]);
