@@ -20,13 +20,15 @@
     "cross-env": "^7.0.2",
     "express": "^4.17.1",
     "framer-motion": "^3.7.0",
+    "ip": "^1.1.5",
     "next": "latest",
     "raf": "^3.4.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "robotjs": "^0.6.0",
     "socket.io": "^3.1.2",
-    "socket.io-client": "^3.1.2"
+    "socket.io-client": "^3.1.2",
+    "string-similarity": "^4.0.4"
   },
   "license": "MIT"
 }
