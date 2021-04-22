@@ -2,13 +2,12 @@ const child_process = require("child_process");
 const socketIO = require("socket.io");
 const express = require("express");
 const robot = require("robotjs");
-const boxen = require("boxen");
-const chalk = require("chalk");
 const next = require("next");
 const path = require("path");
 const http = require("http");
 const fs = require("fs");
 
+const consoleListen = require("./functions/consoleListen");
 const { width: COMPwidth, height: COMPheight } = robot.getScreenSize();
 
 const port = parseInt(process.env.PORT, 10) || 3000;
@@ -66,20 +65,7 @@ app.prepare().then(() => {
 
   server.listen(port, (err) => {
     if (err) throw err;
-    const hr = "_".repeat(process.stdout.columns / 2.5 - 8);
-    const title = `${chalk.hex("#E5E0E2")("next")}-${chalk.cyan("pentab")}`;
-    const localListen = `${chalk.green(">")} Local: http://localhost:${port}`;
-
-    const text = `
-      ${title}
-      ${chalk.hex("#465764")(hr)}
-
-      ${localListen}
-    `;
-
-    console.log(
-      boxen(text, { padding: { right: 6.5 }, borderColor: "#D1070A" })
-    );
+    consoleListen(port);
   });
 
   const Sock = socketIO(server);
