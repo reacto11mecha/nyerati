@@ -43,10 +43,16 @@ function TouchBox({ socket, connected }) {
     disconnected: useColorModeValue("red.400", "red.800"),
   };
 
+  const ping = useCallback(() => {
+    startTime = Date.now();
+    socket.emit("check:ping");
+  }, [startTime, socket]);
+
   useEffect(() => {
     let interval;
     const curr = ref.current;
 
+    ping();
     const pongFunc = () => setLAT(Date.now() - startTime);
 
     const handleTouch = (evt) => {
@@ -57,8 +63,7 @@ function TouchBox({ socket, connected }) {
     };
 
     interval = setInterval(() => {
-      startTime = Date.now();
-      socket.emit("check:ping");
+      ping();
     }, 2000);
 
     socket.on("check:pong", pongFunc);
