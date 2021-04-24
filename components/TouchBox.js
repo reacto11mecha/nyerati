@@ -74,6 +74,10 @@ function TouchBox({ socket, connected }) {
     };
   }, []);
 
+  useEffect(() => {
+    if (!connected) setLAT(null);
+  }, [connected]);
+
   return (
     <Box
       p={8}

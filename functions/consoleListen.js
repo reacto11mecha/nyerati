@@ -26,4 +26,16 @@ module.exports = (port) => {
   `;
 
   console.log(boxen(text, { padding: { right: 6.5 }, borderColor: "#D1070A" }));
+
+  const logsTxt = `${chalk.hex("#4C7DBE")("L")} ${chalk.hex("#E7E7E7")(
+    "O"
+  )} ${chalk.hex("#E9C477")("G")} ${chalk.hex("#D7C8E7")("S")}`;
+  const logsHr = chalk.hex("#363F50")("_".repeat("L O G S".length * 1.2));
+
+  const logs = `
+  ${logsTxt}
+  ${logsHr}
+  `;
+
+  console.log(logs);
 };

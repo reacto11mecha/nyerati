@@ -2,6 +2,7 @@ const child_process = require("child_process");
 const socketIO = require("socket.io");
 const express = require("express");
 const robot = require("robotjs");
+const chalk = require("chalk");
 const next = require("next");
 const path = require("path");
 const http = require("http");
@@ -71,7 +72,7 @@ app.prepare().then(() => {
   const Sock = socketIO(server);
 
   Sock.on("connection", (socc) => {
-    console.log("SOCKET CONNECTED");
+    console.log(`[${chalk.hex("#FDD798")("Socket")}] Connected`);
 
     socc.on("touch", moveMouse);
 
