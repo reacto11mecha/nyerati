@@ -17,6 +17,8 @@
     "axios": "^0.21.1",
     "boxen": "^5.0.1",
     "chalk": "^2.4.2",
+    "clear": "^0.1.0",
+    "commander": "^7.2.0",
     "cross-env": "^7.0.2",
     "express": "^4.17.1",
     "framer-motion": "^3.7.0",
@@ -29,5 +31,8 @@
     "socket.io-client": "^3.1.2",
     "string-similarity": "^4.0.4"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "bin": {
+    "pentab": "./cli.js"
+  }
 }
