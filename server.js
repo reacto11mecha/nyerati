@@ -13,7 +13,7 @@ const { width: COMPwidth, height: COMPheight } = robot.getScreenSize();
 
 const port = parseInt(process.env.PORT, 10) || 3000;
 const dev = process.env.NODE_ENV !== "production";
-const record = process.env.RECORD;
+const isRecording = process.env.RECORD === "record";
 const recordFolder = path.join(__dirname, "record");
 const recordText = path.join(recordFolder, "coord.txt");
 const recordJson = path.join(recordFolder, "convert.json");
@@ -21,8 +21,8 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 const writer = child_process.fork("./functions/writer");
 
-switch (record) {
-  case "record":
+switch (isRecording) {
+  case true:
     fs.open(recordText, "r", (err) => {
       if (err) {
         if (!fs.existsSync(recordFolder)) fs.mkdirSync(recordFolder);
@@ -32,7 +32,7 @@ switch (record) {
 }
 
 const moveMouse = (() => {
-  if (record !== "record")
+  if (!isRecording)
     return (data) =>
       void robot.moveMouse(data.x * COMPwidth, data.y * COMPheight);
 
@@ -78,4 +78,9 @@ app.prepare().then(() => {
 
     socc.on("check:ping", () => socc.emit("check:pong"));
   });
+});
+
+process.on("SIGINT", () => {
+  if (isRecording) child_process.exec("./functions/parsecoord");
+  process.exit(1);
 });
