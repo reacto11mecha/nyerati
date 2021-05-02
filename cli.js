@@ -2,7 +2,7 @@
 const program = require("commander");
 const package = require("./package.json");
 
-const { run, record } = require("./lib/action")(__dirname);
+const { run, record, build } = require("./lib/action")(__dirname);
 
 program.version(package.version).name(Object.keys(package.bin)[0]);
 
@@ -17,6 +17,12 @@ program
   .alias("rec")
   .description("Running a record mode of pentab")
   .action(() => record());
+
+program
+  .command("build")
+  .alias("b")
+  .description("Building production mode of next-pentab")
+  .action(() => build());
 
 const parsed = program.parse(process.argv);
 if (
