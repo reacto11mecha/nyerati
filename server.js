@@ -80,7 +80,11 @@ app.prepare().then(() => {
   });
 });
 
-process.on("SIGINT", () => {
-  if (isRecording) child_process.exec("./functions/parsecoord");
+const parseCoord = () => {
+  if (isRecording)
+    child_process.exec(`cd ${__dirname} && node functions/parsecoord`);
   process.exit(1);
-});
+};
+
+process.on("SIGINT", parseCoord);
+process.on("disconnect", parseCoord);
