@@ -21,7 +21,7 @@ program
 program
   .command("build")
   .alias("b")
-  .description("Building production mode of next-pentab")
+  .description("Building production mode of pentab")
   .action(() => build());
 
 const parsed = program.parse(process.argv);
