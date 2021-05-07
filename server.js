@@ -21,6 +21,8 @@ const app = next({ dev });
 const handle = app.getRequestHandler();
 const writer = child_process.fork("./functions/writer");
 
+let user = [];
+
 switch (isRecording) {
   case true:
     fs.open(recordText, "r", (err) => {
@@ -30,6 +32,8 @@ switch (isRecording) {
       }
     });
 }
+
+const SoccConsole = () => `[${chalk.hex("#FDD798")("Socket")}]`;
 
 const moveMouse = (() => {
   if (!isRecording)
@@ -72,17 +76,37 @@ app.prepare().then(() => {
   const Sock = socketIO(server);
 
   Sock.on("connection", (socc) => {
-    console.log(`[${chalk.hex("#FDD798")("Socket")}] Connected`);
+    if (user.length === 1) {
+      if (!user.includes(socc.id)) {
+        socc.disconnect();
+        return;
+      }
+    }
+
+    user.push(socc.id);
+    console.log(`${SoccConsole()} Connected`);
 
     socc.on("touch", moveMouse);
 
     socc.on("check:ping", () => socc.emit("check:pong"));
+
+    socc.on("disconnect", () => {
+      if (user.length > 0) {
+        if (user.includes(socc.id)) {
+          const index = user.indexOf(socc.id);
+          user.splice(index, 1);
+          console.log(`${SoccConsole()} Disconnected`);
+        }
+      }
+    });
   });
 });
 
 const parseCoord = () => {
   if (isRecording)
-    child_process.exec(`cd ${__dirname} && node functions/parsecoord`);
+    child_process.exec("node functions/parsecoord", {
+      cwd: __dirname,
+    });
   process.exit(1);
 };
 
