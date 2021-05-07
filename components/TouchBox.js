@@ -14,27 +14,31 @@ import Ping from "./Ping";
 let startTime = 0;
 
 function TouchBox({ socket, connected }) {
-  const { toggleColorMode } = useColorMode();
+  const { toggleColorMode, colorMode } = useColorMode();
   const [latency, setLAT] = useState(null);
   const ref = useRef();
 
-  const toggleFullscreen = useCallback(() => {
-    const isFullscreen =
-      document.webkitIsFullScreen || document.mozFullScreen || false;
-    const cancelFSN =
-      document.cancelFullScreen ||
-      document.webkitCancelFullScreen ||
-      document.mozCancelFullScreen;
-    const cancelFS = cancelFSN ? cancelFSN.bind(document) : null;
+  const toggleFullscreen = useCallback(
+    (e) => {
+      const isFullscreen =
+        document.webkitIsFullScreen || document.mozFullScreen || false;
+      const cancelFSN =
+        document.cancelFullScreen ||
+        document.webkitCancelFullScreen ||
+        document.mozCancelFullScreen;
+      const cancelFS = cancelFSN ? cancelFSN.bind(document) : null;
 
-    if (ref.current) {
-      if (isFullscreen) {
-        cancelFS();
-      } else {
-        ref.current.requestFullscreen();
+      if (ref.current) {
+        e.target.blur();
+        if (isFullscreen) {
+          cancelFS();
+        } else {
+          ref.current.requestFullscreen();
+        }
       }
-    }
-  }, [ref]);
+    },
+    [ref]
+  );
 
   const CardColor = useColorModeValue("gray.50", "gray.900");
   const bgConnected = {
@@ -42,6 +46,20 @@ function TouchBox({ socket, connected }) {
     connected: useColorModeValue("green.300", "green.600"),
     disconnected: useColorModeValue("red.400", "red.800"),
   };
+  const TextStatus = useMemo(
+    () =>
+      connected === null ? "N/A" : connected ? "CONNECTED" : "DISCONNECTED",
+    [connected]
+  );
+  const bgCNTD = useMemo(
+    () =>
+      connected === null
+        ? bgConnected.na
+        : connected
+        ? bgConnected.connected
+        : bgConnected.disconnected,
+    [connected, colorMode]
+  );
 
   const ping = useCallback(() => {
     startTime = Date.now();
@@ -97,7 +115,12 @@ function TouchBox({ socket, connected }) {
     >
       <VStack direction={"row"} align="stretch" spacing="60vh">
         <HStack>
-          <Button onClick={useMemo(() => toggleColorMode)}>
+          <Button
+            onClick={(e) => {
+              toggleColorMode();
+              e.target.blur();
+            }}
+          >
             Toggle Dark Mode
           </Button>
           <Button onClick={toggleFullscreen}>Fullscreen</Button>
@@ -108,22 +131,10 @@ function TouchBox({ socket, connected }) {
             borderRadius={8}
             width={connected ? "6.5rem" : "7.8rem"}
             height="3rem"
-            backgroundColor={
-              connected === null
-                ? bgConnected.na
-                : connected
-                ? bgConnected.connected
-                : bgConnected.disconnected
-            }
+            backgroundColor={bgCNTD}
           >
             <Flex height="100%" justifyContent="center" align="center">
-              <Text>
-                {connected === null
-                  ? "N/A"
-                  : connected
-                  ? "CONNECTED"
-                  : "DISCONNECTED"}
-              </Text>
+              <Text>{TextStatus}</Text>
             </Flex>
           </Box>
           <Ping latency={latency} />
