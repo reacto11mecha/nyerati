@@ -10,6 +10,13 @@ const TouchBox = dynamic(() => import("../components/TouchBox"), {
 
 const Home = () => (
   <Flex width="full" height="100vh" align="center" justifyContent="center">
+    <style jsx global>{`
+      * {
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+    `}</style>
     <Head>
       <title>PEN TABLET</title>
     </Head>
