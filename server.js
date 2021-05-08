@@ -3,6 +3,7 @@ const socketIO = require("socket.io");
 const express = require("express");
 const robot = require("robotjs");
 const chalk = require("chalk");
+const dgram = require("dgram");
 const next = require("next");
 const path = require("path");
 const http = require("http");
@@ -22,6 +23,11 @@ const handle = app.getRequestHandler();
 const writer = child_process.fork("./functions/writer");
 
 let user = [];
+
+const udpSocket = dgram.createSocket({
+  type: "udp4",
+  reuseAddr: true,
+});
 
 switch (isRecording) {
   case true:
@@ -45,6 +51,8 @@ const moveMouse = (() => {
     writer.send({ ...data, d: Date.now() });
   };
 })();
+
+udpSocket.on("message", (msg) => void moveMouse(JSON.parse(msg.toString())));
 
 app.prepare().then(() => {
   const exApp = express();
@@ -100,6 +108,8 @@ app.prepare().then(() => {
       }
     });
   });
+
+  udpSocket.bind(port);
 });
 
 const parseCoord = () => {
