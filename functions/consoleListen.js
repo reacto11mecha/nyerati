@@ -1,3 +1,4 @@
+const qrcode = require("qrcode-terminal");
 const boxen = require("boxen");
 const chalk = require("chalk");
 const ip = require("ip");
@@ -26,6 +27,14 @@ module.exports = (port) => {
   `;
 
   console.log(boxen(text, { padding: { right: 6.5 }, borderColor: "#D1070A" }));
+
+  let qrcodeData = { port };
+
+  if (LAN_IP) qrcodeData.LAN_IP = LAN_IP;
+  if (USB_IP) qrcodeData.USB_IP = USB_IP;
+
+  if (Object.keys(qrcodeData).length > 1)
+    qrcode.generate(JSON.stringify(qrcodeData), { small: true });
 
   const logsTxt = `${chalk.hex("#4C7DBE")("L")} ${chalk.hex("#E7E7E7")(
     "O"
