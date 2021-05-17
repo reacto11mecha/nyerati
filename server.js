@@ -52,7 +52,15 @@ const moveMouse = (() => {
   };
 })();
 
-udpSocket.on("message", (msg) => void moveMouse(JSON.parse(msg.toString())));
+udpSocket.on("message", (msg, sender) => {
+  switch (msg.toString()) {
+    case "ping":
+      udpSocket.send("pong", sender.port, sender.address);
+      break;
+    default:
+      void moveMouse(JSON.parse(msg.toString()));
+  }
+});
 
 app.prepare().then(() => {
   const exApp = express();
