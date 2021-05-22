@@ -28,10 +28,10 @@ module.exports = (port) => {
 
   console.log(boxen(text, { padding: { right: 6.5 }, borderColor: "#D1070A" }));
 
-  let qrcodeData = { port };
+  let qrcodeData = { port, connections: [] };
 
-  if (LAN_IP) qrcodeData.LAN_IP = LAN_IP;
-  if (USB_IP) qrcodeData.USB_IP = USB_IP;
+  if (LAN_IP) qrcodeData.connections.push({ type: "LAN", ip: LAN_IP });
+  if (USB_IP) qrcodeData.connections.push({ type: "USB", ip: USB_IP });
 
   if (Object.keys(qrcodeData).length > 1)
     qrcode.generate(JSON.stringify(qrcodeData), { small: true });

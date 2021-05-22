@@ -53,9 +53,28 @@ const moveMouse = (() => {
 })();
 
 udpSocket.on("message", (msg, sender) => {
+  if (user.length === 1 && !user.includes(sender.address)) return;
+
   switch (msg.toString()) {
+    case "init":
+      user.push(sender.address);
+      udpSocket.send(
+        "verified",
+        sender.port,
+        sender.address,
+        (err) => !err && console.log("verified")
+      );
+      break;
     case "ping":
       udpSocket.send("pong", sender.port, sender.address);
+      break;
+    case "close":
+      if (user.length > 0) {
+        if (user.includes(sender.address)) {
+          const index = user.indexOf(sender.address);
+          user.splice(index, 1);
+        }
+      }
       break;
     default:
       void moveMouse(JSON.parse(msg.toString()));
