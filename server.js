@@ -40,6 +40,7 @@ switch (isRecording) {
 }
 
 const SoccConsole = () => `[${chalk.hex("#FDD798")("Socket")}]`;
+const UdpSoccConsole = () => `[${chalk.hex("#FDD798")("UDP")}]`;
 
 const moveMouse = (() => {
   if (!isRecording)
@@ -58,22 +59,21 @@ udpSocket.on("message", (msg, sender) => {
   switch (msg.toString()) {
     case "init":
       user.push(sender.address);
-      udpSocket.send(
-        "verified",
-        sender.port,
-        sender.address,
-        (err) => !err && console.log("verified")
-      );
+      console.log(`${UdpSoccConsole()} Init`);
+      udpSocket.send("verified", sender.port, sender.address, (err) => {
+        if (!err) {
+          console.log(`${UdpSoccConsole()} Verified`);
+        }
+      });
       break;
     case "ping":
       udpSocket.send("pong", sender.port, sender.address);
       break;
     case "close":
-      if (user.length > 0) {
-        if (user.includes(sender.address)) {
-          const index = user.indexOf(sender.address);
-          user.splice(index, 1);
-        }
+      if (user.length > 0 && user.includes(sender.address)) {
+        const index = user.indexOf(sender.address);
+        user.splice(index, 1);
+        console.log(`${UdpSoccConsole()} Disconnected`);
       }
       break;
     default:
@@ -111,11 +111,9 @@ app.prepare().then(() => {
   const Sock = socketIO(server);
 
   Sock.on("connection", (socc) => {
-    if (user.length === 1) {
-      if (!user.includes(socc.id)) {
-        socc.disconnect();
-        return;
-      }
+    if (user.length === 1 && !user.includes(socc.id)) {
+      socc.disconnect();
+      return;
     }
 
     user.push(socc.id);
@@ -126,12 +124,10 @@ app.prepare().then(() => {
     socc.on("check:ping", () => socc.emit("check:pong"));
 
     socc.on("disconnect", () => {
-      if (user.length > 0) {
-        if (user.includes(socc.id)) {
-          const index = user.indexOf(socc.id);
-          user.splice(index, 1);
-          console.log(`${SoccConsole()} Disconnected`);
-        }
+      if (user.length > 0 && user.includes(socc.id)) {
+        const index = user.indexOf(socc.id);
+        user.splice(index, 1);
+        console.log(`${SoccConsole()} Disconnected`);
       }
     });
   });
