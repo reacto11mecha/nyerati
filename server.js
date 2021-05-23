@@ -58,13 +58,15 @@ udpSocket.on("message", (msg, sender) => {
 
   switch (msg.toString()) {
     case "init":
-      user.push(sender.address);
-      console.log(`${UdpSoccConsole()} Init`);
-      udpSocket.send("verified", sender.port, sender.address, (err) => {
-        if (!err) {
-          console.log(`${UdpSoccConsole()} Verified`);
-        }
-      });
+      if (user.length < 1 && !user.includes(sender.address)) {
+        user.push(sender.address);
+        console.log(`${UdpSoccConsole()} Init`);
+        udpSocket.send("verified", sender.port, sender.address, (err) => {
+          if (!err) {
+            console.log(`${UdpSoccConsole()} Verified`);
+          }
+        });
+      }
       break;
     case "ping":
       udpSocket.send("pong", sender.port, sender.address);
