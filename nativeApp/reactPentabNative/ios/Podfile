@@ -14,6 +14,8 @@ target 'reactPentabNative' do
 
   pod 'react-native-camera', :path => '../node_modules/react-native-camera'
 
+  pod 'react-native-udp', :path => '../node_modules/react-native-udp'
+
   target 'reactPentabNativeTests' do
     inherit! :complete
     # Pods for testing
