@@ -9,14 +9,16 @@ program.version(package.version).name(Object.keys(package.bin)[0]);
 program
   .command("run")
   .alias("r")
+  .option("--udp-only", "Udp only connection")
   .description("Running a normal mode of pentab")
-  .action(() => run());
+  .action(run);
 
 program
   .command("record")
   .alias("rec")
+  .option("--udp-only", "Udp only connection")
   .description("Running a record mode of pentab")
-  .action(() => record());
+  .action(record);
 
 program
   .command("build")

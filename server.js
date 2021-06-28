@@ -1,87 +1,28 @@
-const child_process = require("child_process");
 const socketIO = require("socket.io");
 const express = require("express");
-const robot = require("robotjs");
 const chalk = require("chalk");
-const dgram = require("dgram");
 const next = require("next");
-const path = require("path");
 const http = require("http");
 const fs = require("fs");
 
-const consoleListen = require("./functions/consoleListen");
-const { width: COMPwidth, height: COMPheight } = robot.getScreenSize();
+const { recordJson, port } = require("./config/constant");
 
-const port = parseInt(process.env.PORT, 10) || 3000;
+const { consoleListen, udp: udpSocket } = require("./functions");
+const {
+  processCoordWriter: processWriter,
+  moveMouseWrapper,
+} = require("./lib");
+
 const dev = process.env.NODE_ENV !== "production";
-const isRecording = process.env.RECORD === "record";
-const recordFolder = path.join(__dirname, "record");
-const recordText = path.join(recordFolder, "coord.txt");
-const recordJson = path.join(recordFolder, "convert.json");
+
 const app = next({ dev });
 const handle = app.getRequestHandler();
-const writer = child_process.fork("./functions/writer");
 
 let user = [];
 
-const udpSocket = dgram.createSocket({
-  type: "udp4",
-  reuseAddr: true,
-});
-
-switch (isRecording) {
-  case true:
-    fs.open(recordText, "r", (err) => {
-      if (err) {
-        if (!fs.existsSync(recordFolder)) fs.mkdirSync(recordFolder);
-        fs.writeFileSync(recordText, "");
-      }
-    });
-}
+const moveMouse = moveMouseWrapper();
 
 const SoccConsole = () => `[${chalk.hex("#FDD798")("Socket")}]`;
-const UdpSoccConsole = () => `[${chalk.hex("#FDD798")("UDP")}]`;
-
-const moveMouse = (() => {
-  if (!isRecording)
-    return (data) =>
-      void robot.moveMouse(data.x * COMPwidth, data.y * COMPheight);
-
-  return (data) => {
-    robot.moveMouse(data.x * COMPwidth, data.y * COMPheight);
-    writer.send({ ...data, d: Date.now() });
-  };
-})();
-
-udpSocket.on("message", (msg, sender) => {
-  if (user.length === 1 && !user.includes(sender.address)) return;
-
-  switch (msg.toString()) {
-    case "init":
-      if (user.length < 1 && !user.includes(sender.address)) {
-        user.push(sender.address);
-        console.log(`${UdpSoccConsole()} Init`);
-        udpSocket.send("verified", sender.port, sender.address, (err) => {
-          if (!err) {
-            console.log(`${UdpSoccConsole()} Verified`);
-          }
-        });
-      }
-      break;
-    case "ping":
-      udpSocket.send("pong", sender.port, sender.address);
-      break;
-    case "close":
-      if (user.length > 0 && user.includes(sender.address)) {
-        const index = user.indexOf(sender.address);
-        user.splice(index, 1);
-        console.log(`${UdpSoccConsole()} Disconnected`);
-      }
-      break;
-    default:
-      void moveMouse(JSON.parse(msg.toString()));
-  }
-});
 
 app.prepare().then(() => {
   const exApp = express();
@@ -134,16 +75,7 @@ app.prepare().then(() => {
     });
   });
 
-  udpSocket.bind(port);
+  udpSocket(user, moveMouse, port);
 });
 
-const parseCoord = () => {
-  if (isRecording)
-    child_process.exec("node functions/parsecoord", {
-      cwd: __dirname,
-    });
-  process.exit(1);
-};
-
-process.on("SIGINT", parseCoord);
-process.on("disconnect", parseCoord);
+processWriter(process);
