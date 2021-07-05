@@ -11,7 +11,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
 import UDPProvider from './src/context/udp';
-import {ScanBarcode, Home} from './src/screen';
+import {ScanBarcode, TouchArea, Home} from './src/screen';
 
 const Stack = createStackNavigator();
 
@@ -26,6 +26,7 @@ export default function App() {
             component={ScanBarcode}
             options={{headerShown: false}}
           />
+          <Stack.Screen name="TouchArea" component={TouchArea} />
         </Stack.Navigator>
       </NavigationContainer>
     </UDPProvider>

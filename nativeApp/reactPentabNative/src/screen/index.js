@@ -1,4 +1,5 @@
 import ScanBarcode from './ScanBarcode';
 import Home from './Home';
+import TouchArea from './TouchArea';
 
-export {ScanBarcode, Home};
+export {ScanBarcode, TouchArea, Home};

@@ -9,9 +9,10 @@ import {RNCamera} from 'react-native-camera';
 
 import {UdpContext} from '../context/udp';
 
-export default function ScanBarcode() {
+export default function ScanBarcode({navigation}) {
   const {init, socket} = useContext(UdpContext);
   const [remote, setRemote] = useState('0.0.0.0');
+  const [nextData, setData] = useState(null);
   const camera = useRef(null);
 
   const onBarcode = useCallback(({barcodes}) => {
@@ -24,8 +25,12 @@ export default function ScanBarcode() {
           if (keys.includes('connections') && keys.includes('port')) {
             const {ip} = data.connections[0]; // initial connection
 
-            init(data.port, ip);
-            setRemote(ip);
+            new Promise(resolve => {
+              setData(data);
+              setRemote(ip);
+
+              setTimeout(resolve, 100); // Delay 100ms
+            }).then(() => void init(data.port, ip));
           }
         }
       } catch (e) {
@@ -36,8 +41,10 @@ export default function ScanBarcode() {
 
   useEffect(() => {
     function onMessage(msg, sender) {
-      if (sender.address === remote) {
-        // navigate to other screen
+      if (sender.address === remote && msg.toString() === 'verified') {
+        navigation.navigate('TouchArea', {
+          params: nextData,
+        });
       }
     }
 
@@ -46,7 +53,7 @@ export default function ScanBarcode() {
     return () => {
       socket.off('message', onMessage);
     };
-  });
+  }, []);
 
   return (
     <RNCamera
