@@ -16,7 +16,14 @@ const moveMouse = moveMouseWrapper();
 
 const SoccConsole = () => `[${chalk.hex("#FDD798")("Socket")}]`;
 
-const Sock = socketIO(server);
+const Sock = socketIO({
+  cors: [
+    "http://localhost:3500/",
+    "http://localhost:5000/",
+    "https://nyerati.rmecha.my.id/",
+  ],
+  methods: ["GET", "POST"],
+});
 
 Sock.on("connection", (socc) => {
   if (user.length === 1 && !user.includes(socc.id)) {
