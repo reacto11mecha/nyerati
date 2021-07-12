@@ -1,10 +1,11 @@
 {
-  "name": "next-pentab",
+  "name": "nyerati",
   "version": "1.0.0",
   "scripts": {
-    "dev": "node server.js",
-    "dev:record": "cross-env RECORD=record node server.js",
-    "build": "next build",
+    "dev": "nodemon server.js",
+    "dev:record": "cross-env RECORD=record nodemon server.js",
+    "dev-parallel": "concurrently \"npm run dev\" \"cd web-interface && npm run dev\"",
+    "dev-parallel:record": "concurrently \"npm dev:record\" \"cd web-interface && npm run dev\"",
     "start": "cross-env NODE_ENV=production node server.js",
     "record": "cross-env NODE_ENV=production RECORD=record node server.js",
     "udp": "node udpOnly.js",
@@ -26,5 +27,9 @@
   "license": "MIT",
   "bin": {
     "pentab": "./cli.js"
+  },
+  "devDependencies": {
+    "concurrently": "^6.2.0",
+    "nodemon": "^2.0.12"
   }
 }
