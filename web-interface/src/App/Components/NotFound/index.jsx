@@ -1,4 +1,4 @@
-import styles from "./TouchArea/Scanner/Scanner.module.css";
+import styles from "./NotFound.module.css";
 
 function NotFound() {
   return (
