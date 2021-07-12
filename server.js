@@ -17,11 +17,7 @@ const moveMouse = moveMouseWrapper();
 const SoccConsole = () => `[${chalk.hex("#FDD798")("Socket")}]`;
 
 const Sock = socketIO({
-  cors: [
-    "http://localhost:3500/",
-    "http://localhost:5000/",
-    "https://nyerati.rmecha.my.id/",
-  ],
+  cors: ["http://localhost:3500/", "http://localhost:5000/"],
   methods: ["GET", "POST"],
 });
 
