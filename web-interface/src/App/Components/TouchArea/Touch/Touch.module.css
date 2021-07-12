@@ -1,0 +1,17 @@
+.mainContainer {
+  display: flex;
+  height: 100vh;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.CardMax {
+  display: flex;
+  width: 100vw;
+  height: calc(100vh - 3em);
+  align-items: center;
+  justify-content: center;
+  top: 10.3px;
+  border-radius: 0.5em;
+  border: 1.5px solid #aaa;
+}
