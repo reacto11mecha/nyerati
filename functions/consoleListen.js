@@ -3,6 +3,7 @@ const boxen = require("boxen");
 const chalk = require("chalk");
 const ip = require("ip");
 
+const { port } = require("../config/constant");
 const getUSB = require("../utils/getUsbNWInterface");
 
 // NETWORK IP
@@ -10,7 +11,7 @@ const usbNWIF = getUSB(); // USB Network Interface
 const LAN_IP = ip.address() !== "127.0.0.1" ? ip.address() : null;
 const USB_IP = ip.address(usbNWIF) !== "127.0.0.1" ? ip.address(usbNWIF) : null;
 
-module.exports = (port) => {
+module.exports = () => {
   const hr = "_".repeat(process.stdout.columns / 2.5 - 8);
   const title = `${chalk.hex("#E5E0E2")("next")}-${chalk.cyan("pentab")}`;
   const localListen = `${chalk.green(">")} Local: http://localhost:${port}`;

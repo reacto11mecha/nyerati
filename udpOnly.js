@@ -11,7 +11,7 @@ let user = [];
 
 const moveMouse = moveMouseWrapper();
 
-udpSocket(user, moveMouse, port);
+udpSocket(user, moveMouse);
 
 console.log(
   `${chalk.hex("#4C7DBE")(
@@ -19,5 +19,5 @@ console.log(
   )}: You are currently on udp mode, connect via pentab mobile app only!\n`
 );
 
-consoleListen(port);
+consoleListen();
 processWriter(process);

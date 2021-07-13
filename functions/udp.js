@@ -1,9 +1,11 @@
 const dgram = require("dgram");
 const chalk = require("chalk");
 
+const { port } = require("../config/constant");
+
 const UdpSoccConsole = () => `[${chalk.hex("#FDD798")("UDP")}]`;
 
-const udp = (user, moveMouse, port) => {
+module.exports = (user, moveMouse) => {
   const udpSocket = dgram.createSocket({
     type: "udp4",
     reuseAddr: true,
@@ -41,5 +43,3 @@ const udp = (user, moveMouse, port) => {
 
   udpSocket.bind(port);
 };
-
-module.exports = udp;
