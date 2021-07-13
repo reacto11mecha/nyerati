@@ -1,10 +1,10 @@
-const socketIO = require("socket.io");
-const chalk = require("chalk");
 const fs = require("fs");
+const http = require("http");
+const express = require("express");
 
-const { recordJson, port } = require("./config/constant");
+const { recordJson, port, dev } = require("./config/constant");
 
-const { consoleListen, udp: udpSocket } = require("./functions");
+const { consoleListen, udp: udpSocket, socket } = require("./functions");
 const {
   processCoordWriter: processWriter,
   moveMouseWrapper,
@@ -14,37 +14,19 @@ let user = [];
 
 const moveMouse = moveMouseWrapper();
 
-const SoccConsole = () => `[${chalk.hex("#FDD798")("Socket")}]`;
+if (dev) {
+  socket(user, moveMouse);
+  udpSocket(user, moveMouse);
 
-const Sock = socketIO({
-  cors: ["http://localhost:3500/", "http://localhost:5000/"],
-  methods: ["GET", "POST"],
-});
+  consoleListen();
+} else {
+  const app = express();
+  const server = http.createServer(app);
 
-Sock.on("connection", (socc) => {
-  if (user.length === 1 && !user.includes(socc.id)) {
-    socc.disconnect();
-    return;
-  }
+  socket(user, moveMouse, server);
+  udpSocket(user, moveMouse);
 
-  user.push(socc.id);
-  console.log(`${SoccConsole()} Connected`);
-
-  socc.on("touch", moveMouse);
-
-  socc.on("check:ping", () => socc.emit("check:pong"));
-
-  socc.on("disconnect", () => {
-    if (user.length > 0 && user.includes(socc.id)) {
-      const index = user.indexOf(socc.id);
-      user.splice(index, 1);
-      console.log(`${SoccConsole()} Disconnected`);
-    }
-  });
-});
-
-Sock.listen(port);
-udpSocket(user, moveMouse, port);
-consoleListen(port);
+  server.listen(port, consoleListen);
+}
 
 processWriter(process);
