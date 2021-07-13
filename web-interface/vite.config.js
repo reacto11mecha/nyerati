@@ -11,6 +11,6 @@ export default defineConfig({
     polyfillDynamicImport: false,
   },
   define: {
-    portDev: dev ? JSON.stringify(portDev) : "",
+    portDev: dev ? JSON.stringify(portDev) : JSON.stringify(""),
   },
 });
