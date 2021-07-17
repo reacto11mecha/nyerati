@@ -13,7 +13,7 @@ const USB_IP = ip.address(usbNWIF) !== "127.0.0.1" ? ip.address(usbNWIF) : null;
 
 module.exports = () => {
   const hr = "_".repeat(process.stdout.columns / 2.5 - 8);
-  const title = `${chalk.hex("#E5E0E2")("next")}-${chalk.cyan("pentab")}`;
+  const title = `${chalk.hex("#E5E0E2")("nye")}${chalk.cyan("rati")}`;
   const localListen = `${chalk.green(">")} Local: http://localhost:${port}`;
   const lanListen = `${chalk.green(">")} LAN: http://${LAN_IP}:${port}`;
   const usbListen = `${chalk.green(">")} USB : http://${USB_IP}:${port}`;
