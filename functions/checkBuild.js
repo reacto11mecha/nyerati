@@ -33,10 +33,14 @@ const checkBuild = () =>
         );
       } else {
         try {
+          console.log(
+            `[${chalk.hex("#FDD798")("BUILD")}] Start building web interface`
+          );
+
           await buildAndMove();
 
           console.log(
-            `[${chalk.green("Success")}] Success building web interface`
+            `\n[${chalk.green("BUILD")}] Success building web interface`
           );
 
           resolve();
