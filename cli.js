@@ -10,21 +10,15 @@ program
   .command("run")
   .alias("r")
   .option("--udp-only", "Udp only connection")
-  .description("Running a normal mode of pentab")
+  .description("Running a normal mode of nyerati")
   .action(run);
 
 program
   .command("record")
   .alias("rec")
   .option("--udp-only", "Udp only connection")
-  .description("Running a record mode of pentab")
+  .description("Running a record mode of nyerati")
   .action(record);
-
-program
-  .command("build")
-  .alias("b")
-  .description("Building production mode of pentab")
-  .action(() => build());
 
 const parsed = program.parse(process.argv);
 if (
