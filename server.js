@@ -1,10 +1,15 @@
-const fs = require("fs");
 const http = require("http");
+const path = require("path");
 const express = require("express");
 
-const { recordJson, port, dev } = require("./config/constant");
+const { recordJson, port, dev, distRoot } = require("./config/constant");
 
-const { consoleListen, udp: udpSocket, socket } = require("./functions");
+const {
+  consoleListen,
+  udp: udpSocket,
+  socket,
+  checkBuild,
+} = require("./functions");
 const {
   processCoordWriter: processWriter,
   moveMouseWrapper,
@@ -20,7 +25,19 @@ if (dev) {
 
   consoleListen();
 } else {
+  prodServer();
+}
+
+async function prodServer() {
+  await checkBuild();
+
   const app = express();
+
+  app.use(express.static(distRoot));
+  app.get("/*", function (req, res) {
+    res.sendFile(path.join(distRoot, "index.html"));
+  });
+
   const server = http.createServer(app);
 
   socket(user, moveMouse, server);
