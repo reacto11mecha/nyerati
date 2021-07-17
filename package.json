@@ -27,7 +27,7 @@
   },
   "license": "MIT",
   "bin": {
-    "pentab": "./cli.js"
+    "nyerati": "./cli.js"
   },
   "devDependencies": {
     "concurrently": "^6.2.0",
