@@ -1,6 +1,7 @@
 const http = require("http");
 const path = require("path");
 const express = require("express");
+const compression = require("compression");
 
 const { recordJson, port, dev, distRoot } = require("./config/constant");
 
@@ -32,6 +33,8 @@ async function prodServer() {
   await checkBuild();
 
   const app = express();
+
+  app.use(compression());
 
   app.use(express.static(distRoot));
   app.get("/*", function (req, res) {
