@@ -36,7 +36,7 @@ function TouchArea() {
       <div>
         <article class={`card ${styles.CardMax}`} ref={touchArea}>
           <header>
-            <h3>Touch and drag here</h3>
+            <h3 className={styles.selectNone}>Touch and drag here</h3>
           </header>
         </article>
       </div>
