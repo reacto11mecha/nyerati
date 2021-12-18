@@ -3,13 +3,18 @@
   "private": true,
   "devDependencies": {
     "concurrently": "^6.5.0",
+    "eslint": "^8.5.0",
     "lerna": "^4.0.0"
   },
   "workspaces": [
     "packages/*"
   ],
   "scripts": {
+    "lint": "eslint .",
     "start": "lerna run start --scope=@nyerati/nyerati --stream",
+    "start:udp": "lerna run udp --scope=@nyerati/nyerati --stream",
+    "start:udp-record": "lerna run udp-record --scope=@nyerati/nyerati --stream",
+    "nyudp": "lerna run start --scope=@nyerati/nyudp --stream",
     "dev": "lerna run dev --scope=@nyerati/nyerati --scope=@nyerati/web-interface --stream",
     "dev:host": "concurrently \"lerna run dev --scope=@nyerati/nyerati --stream\" \"lerna run dev-host --scope=@nyerati/web-interface --stream\"",
     "dev:web": "lerna run dev --scope=@nyerati/web-interface --stream",

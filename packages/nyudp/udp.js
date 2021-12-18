@@ -4,11 +4,24 @@ const {
   config: {
     constant: { port },
   },
+  consoleListen,
+  lib,
 } = require("@nyerati/shared")(process);
 
-module.exports = async (user, moveMouse) => {
-  const chalk = await import("chalk");
+let user = [];
+
+async function runUDP(userDataFromTop, moveMouse) {
+  const chalk = await import("chalk").then((p) => p.default);
   const UdpSoccConsole = () => `[${chalk.hex("#FDD798")("UDP")}]`;
+
+  if (userDataFromTop) {
+    // Referencing variable if userDataFromTop isnt undefined
+    user = userDataFromTop;
+  }
+
+  if (!moveMouse) {
+    moveMouse = lib.moveMouse();
+  }
 
   const udpSocket = dgram.createSocket({
     type: "udp4",
@@ -45,5 +58,15 @@ module.exports = async (user, moveMouse) => {
     }
   });
 
-  udpSocket.bind(port);
-};
+  return udpSocket;
+}
+
+if (require.main === module) {
+  runUDP().then((socket) => {
+    socket.bind(port);
+
+    consoleListen(true);
+  });
+} else {
+  module.exports = runUDP;
+}

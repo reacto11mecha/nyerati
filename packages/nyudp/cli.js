@@ -2,23 +2,16 @@
 const program = require("commander");
 const packageData = require("./package.json");
 
-const { run, record } = require("./lib/action")(__dirname);
+const { run } = require("./lib/handler")(__dirname);
 
 program.version(packageData.version).name(Object.keys(packageData.bin)[0]);
 
 program
   .command("run")
   .alias("r")
-  .option("--udp-only", "Udp only connection")
-  .description("Running a normal mode of nyerati")
-  .action(run);
-
-program
-  .command("record")
-  .alias("rec")
-  .option("--udp-only", "Udp only connection")
-  .description("Running a record mode of nyerati")
-  .action(record);
+  .option("--port <port>", "Change port to specific port")
+  .description("UDP/datagram mode only")
+  .action(run(packageData));
 
 const parsed = program.parse(process.argv);
 if (

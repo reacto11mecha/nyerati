@@ -1,11 +1,11 @@
 {
-  "name": "@nyerati/shared",
+  "name": "@nyerati/nyudp",
   "version": "1.0.0",
-  "description": "Shared code or config for nyerati",
+  "description": "UDP/datagram only version of nyerati, and without recording feature",
   "author": "Ezra Khairan Permana <ezrakhairan123@gmail.com>",
   "homepage": "https://github.com/reacto11mecha/nyerati#readme",
   "license": "MIT",
-  "main": "index.js",
+  "main": "udp.js",
   "publishConfig": {
     "access": "public"
   },
@@ -14,17 +14,14 @@
     "url": "git+https://github.com/reacto11mecha/nyerati.git"
   },
   "scripts": {
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "start": "node ."
   },
   "bugs": {
     "url": "https://github.com/reacto11mecha/nyerati/issues"
   },
   "dependencies": {
-    "boxen": "^6.2.1",
-    "chalk": "^5.0.0",
-    "ip": "^1.1.5",
-    "qrcode-terminal": "^0.12.0",
-    "robotjs": "^0.6.0",
-    "string-similarity": "^4.0.4"
+    "clear": "^0.1.0",
+    "commander": "^8.3.0"
   }
 }

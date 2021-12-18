@@ -5,25 +5,27 @@ const compression = require("compression");
 
 const {
   config: {
-    constant: { recordJson, port, dev },
+    constant: { port, dev },
   },
+  lib,
+  consoleListen,
 } = require("@nyerati/shared")(process);
+const udpSocket = require("@nyerati/nyudp");
 
-const { consoleListen, udp: udpSocket, socket } = require("./functions");
-const {
-  processCoordWriter: processWriter,
-  moveMouseWrapper,
-} = require("./lib");
+const { socket } = require("./functions");
+const { processCoordWriter: processWriter } = require("./lib");
 
 let user = [];
 
-const moveMouse = moveMouseWrapper();
+const moveMouse = lib.moveMouse();
 
 if (dev) {
   socket(user, moveMouse);
-  udpSocket(user, moveMouse);
+  udpSocket(user, moveMouse).then((socket) => {
+    socket.bind(port);
 
-  consoleListen();
+    consoleListen();
+  });
 } else {
   prodServer();
 }
@@ -44,15 +46,12 @@ function prodServer() {
 
   const server = http.createServer(app);
 
-  socket(user, moveMouse, server);
-  udpSocket(user, moveMouse);
+  udpSocket(user, moveMouse).then((socketUDP) => {
+    socketUDP.bind(port);
 
-  server.listen(port, consoleListen);
+    socket(user, moveMouse, server);
+    server.listen(port, consoleListen);
+  });
 }
 
 processWriter(process);
-
-// console.log(
-//   require("path")
-//
-// );

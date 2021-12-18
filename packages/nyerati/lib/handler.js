@@ -1,21 +1,19 @@
-const chalk = require("chalk");
-const { exec } = require("child_process");
-
 const {
   config: {
     constant: { port },
   },
+  consoleListen,
 } = require("@nyerati/shared")(process);
 
-const listen = require("../functions/consoleListen");
+module.exports = async () => {
+  const chalk = await import("chalk").then((p) => p.default);
 
-const redOllie = chalk.hex("#D1070A");
-const anyaHair = chalk.hex("#FDD798");
+  const redOllie = chalk.hex("#D1070A");
+  const anyaHair = chalk.hex("#FDD798");
 
-module.exports = (cwd) => {
   function childHandler(child) {
     child.stdout.on("data", (text) => {
-      if (text.includes("Local")) listen();
+      if (text.includes("Local")) consoleListen();
 
       if (text.includes("[Socket]")) {
         const event = text.split("[Socket]")[1].trim();

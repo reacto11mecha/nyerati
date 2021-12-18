@@ -1,27 +1,15 @@
-const chalk = require("chalk");
+const udpSocket = require("@nyerati/nyudp");
 const {
+  consoleListen,
   config: {
     constant: { port },
   },
 } = require("@nyerati/shared")(process);
+const { processCoordWriter: processWriter } = require("./lib");
 
-const { consoleListen, udp: udpSocket } = require("./functions");
-const {
-  processCoordWriter: processWriter,
-  moveMouseWrapper,
-} = require("./lib");
+udpSocket().then((socket) => {
+  socket.bind(port);
 
-let user = [];
-
-const moveMouse = moveMouseWrapper();
-
-udpSocket(user, moveMouse);
-
-console.log(
-  `${chalk.hex("#4C7DBE")(
-    "INFO"
-  )}: You are currently on udp mode, connect via pentab mobile app only!\n`
-);
-
-consoleListen();
-processWriter(process);
+  consoleListen(true);
+  processWriter(process);
+});

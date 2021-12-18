@@ -1,11 +1,6 @@
 const qrcode = require("qrcode-terminal");
 const ip = require("ip");
 
-const {
-  config: {
-    constant: { port },
-  },
-} = require("@nyerati/shared")(process);
 const getUSB = require("../utils/getUsbNWInterface");
 
 // NETWORK IP
@@ -13,9 +8,11 @@ const usbNWIF = getUSB(); // USB Network Interface
 const LAN_IP = ip.address() !== "127.0.0.1" ? ip.address() : null;
 const USB_IP = ip.address(usbNWIF) !== "127.0.0.1" ? ip.address(usbNWIF) : null;
 
-module.exports = async () => {
+module.exports = ({ config }) => async (isUDP) => {
   const boxen = await import("boxen").then((p) => p.default);
   const chalk = await import("chalk").then((p) => p.default);
+
+  const port = config.constant.port;
 
   const hr = "_".repeat(process.stdout.columns / 2.5 - 8);
   const title = `${chalk.hex("#E5E0E2")("nye")}${chalk.cyan("rati")}`;
@@ -46,6 +43,14 @@ module.exports = async () => {
     "O"
   )} ${chalk.hex("#E9C477")("G")} ${chalk.hex("#D7C8E7")("S")}`;
   const logsHr = chalk.hex("#363F50")("_".repeat("L O G S".length * 1.2));
+
+  if (isUDP) {
+    console.log(
+      `${chalk.hex("#4C7DBE")(
+        "INFO"
+      )}: You are currently on udp mode, connect via pentab mobile app only!\n`
+    );
+  }
 
   const logs = `
   ${logsTxt}
