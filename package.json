@@ -11,6 +11,7 @@
   ],
   "scripts": {
     "lint": "eslint .",
+    "lint:report": "eslint --output-file eslint_report.json --format json .",
     "start": "lerna run start --scope=@nyerati/nyerati --stream",
     "start:udp": "lerna run udp --scope=@nyerati/nyerati --stream",
     "start:udp-record": "lerna run udp-record --scope=@nyerati/nyerati --stream",
