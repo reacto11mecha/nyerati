@@ -3,7 +3,6 @@ import styles from "./TouchArea.module.css";
 import { io } from "socket.io-client";
 
 const { DEV: dev } = import.meta.env;
-const path = dev ? `http://localhost:${portDev}` : "";
 
 function TouchArea() {
   let touchArea;
@@ -16,7 +15,7 @@ function TouchArea() {
     });
 
   onMount(() => {
-    socket = io(path);
+    socket = dev ? io(`http://${location.hostname}:${portDev}`) : io();
 
     touchArea.addEventListener("touchstart", handler);
     touchArea.addEventListener("touchmove", handler);

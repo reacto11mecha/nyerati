@@ -6,11 +6,10 @@ const { width: COMPwidth, height: COMPheight } = robot.getScreenSize();
 const writer = fork("functions/writer");
 
 const {
-  isRecording,
-  recordJson,
-  recordFolder,
-  recordText,
-} = require("../config/constant");
+  config: {
+    constant: { isRecording, recordJson, recordFolder, recordText },
+  },
+} = require("@nyerati/shared")(process);
 
 const moveMouseWraper = () => {
   if (!isRecording)

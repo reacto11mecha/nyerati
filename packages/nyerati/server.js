@@ -3,14 +3,13 @@ const path = require("path");
 const express = require("express");
 const compression = require("compression");
 
-const { recordJson, port, dev, distRoot } = require("./config/constant");
-
 const {
-  consoleListen,
-  udp: udpSocket,
-  socket,
-  checkBuild,
-} = require("./functions");
+  config: {
+    constant: { recordJson, port, dev },
+  },
+} = require("@nyerati/shared")(process);
+
+const { consoleListen, udp: udpSocket, socket } = require("./functions");
 const {
   processCoordWriter: processWriter,
   moveMouseWrapper,
@@ -29,8 +28,10 @@ if (dev) {
   prodServer();
 }
 
-async function prodServer() {
-  await checkBuild();
+function prodServer() {
+  const distRoot = path
+    .dirname(require.resolve("@nyerati/web-interface"))
+    .replace("src", "dist");
 
   const app = express();
 
@@ -50,3 +51,8 @@ async function prodServer() {
 }
 
 processWriter(process);
+
+// console.log(
+//   require("path")
+//
+// );

@@ -1,5 +1,9 @@
 const chalk = require("chalk");
-const { port } = require("./config/constant");
+const {
+  config: {
+    constant: { port },
+  },
+} = require("@nyerati/shared")(process);
 
 const { consoleListen, udp: udpSocket } = require("./functions");
 const {

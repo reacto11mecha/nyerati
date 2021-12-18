@@ -1,11 +1,15 @@
 const dgram = require("dgram");
-const chalk = require("chalk");
 
-const { port } = require("../config/constant");
+const {
+  config: {
+    constant: { port },
+  },
+} = require("@nyerati/shared")(process);
 
-const UdpSoccConsole = () => `[${chalk.hex("#FDD798")("UDP")}]`;
+module.exports = async (user, moveMouse) => {
+  const chalk = await import("chalk");
+  const UdpSoccConsole = () => `[${chalk.hex("#FDD798")("UDP")}]`;
 
-module.exports = (user, moveMouse) => {
   const udpSocket = dgram.createSocket({
     type: "udp4",
     reuseAddr: true,

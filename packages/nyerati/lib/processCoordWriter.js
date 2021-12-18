@@ -1,7 +1,11 @@
 const { exec } = require("child_process");
 const path = require("path");
 
-const { isRecording } = require("../config/constant");
+const {
+  config: {
+    constant: { isRecording },
+  },
+} = require("@nyerati/shared")(process);
 
 const processWriter = (process) => {
   const parseCoord = () => {

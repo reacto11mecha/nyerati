@@ -1,15 +1,21 @@
 const socketIO = require("socket.io");
-const chalk = require("chalk");
 
-const { dev, port } = require("../config/constant");
+const {
+  config: {
+    constant: { dev, port },
+  },
+} = require("@nyerati/shared")(process);
 
-const SoccConsole = () => `[${chalk.hex("#FDD798")("Socket")}]`;
 const mainConfig = {
   cors: ["http://localhost:3500/", "http://localhost:5000/"],
   methods: ["GET", "POST"],
 };
 
-module.exports = (user, moveMouse, server = null) => {
+module.exports = async (user, moveMouse, server = null) => {
+  const chalk = await import("chalk").then((p) => p.default);
+
+  const SoccConsole = () => `[${chalk.hex("#FDD798")("Socket")}]`;
+
   const Sock = dev ? socketIO(mainConfig) : socketIO(server, mainConfig);
 
   Sock.on("connection", (socc) => {

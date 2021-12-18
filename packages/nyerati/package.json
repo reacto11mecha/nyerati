@@ -1,0 +1,48 @@
+{
+  "name": "@nyerati/nyerati",
+  "version": "1.0.0",
+  "description": "Virtual tablet with android app and website interface",
+  "author": "Ezra Khairan Permana <ezrakhairan123@gmail.com>",
+  "homepage": "https://github.com/reacto11mecha/nyerati#readme",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reacto11mecha/nyerati.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "dev": "nodemon server.js",
+    "dev:record": "cross-env RECORD=record nodemon server.js",
+    "start": "cross-env NODE_ENV=production node server.js",
+    "record": "cross-env NODE_ENV=production RECORD=record node server.js",
+    "udp": "node udpOnly.js",
+    "udp-record": "cross-env NODE_ENV=production RECORD=record node udpOnly.js",
+    "parse": "node functions/parsecoord.js"
+  },
+  "bugs": {
+    "url": "https://github.com/reacto11mecha/nyerati/issues"
+  },
+  "bin": {
+    "nyerati": "./cli.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "boxen": "^6.2.1",
+    "chalk": "^5.0.0",
+    "clear": "^0.1.0",
+    "commander": "^8.3.0",
+    "compression": "^1.7.4",
+    "cross-env": "^7.0.3",
+    "express": "^4.17.2",
+    "ip": "^1.1.5",
+    "qrcode-terminal": "^0.12.0",
+    "robotjs": "^0.6.0",
+    "socket.io": "^4.4.0",
+    "string-similarity": "^4.0.4"
+  }
+}

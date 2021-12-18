@@ -1,7 +1,11 @@
 const chalk = require("chalk");
 const { exec } = require("child_process");
 
-const { port } = require("../config/constant");
+const {
+  config: {
+    constant: { port },
+  },
+} = require("@nyerati/shared")(process);
 
 const listen = require("../functions/consoleListen");
 

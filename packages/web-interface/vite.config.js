@@ -1,8 +1,8 @@
 import { defineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
-import { port as portDev } from "../config/constant";
+import shared from "@nyerati/shared";
 
-const dev = process.env.NODE_ENV !== "production";
+const sharedValue = shared(process);
 
 export default defineConfig({
   plugins: [solidPlugin()],
@@ -11,6 +11,8 @@ export default defineConfig({
     polyfillDynamicImport: false,
   },
   define: {
-    portDev: dev ? JSON.stringify(portDev) : JSON.stringify(""),
+    portDev: sharedValue.config.constant.dev
+      ? JSON.stringify(sharedValue.config.constant.port)
+      : JSON.stringify(""),
   },
 });
