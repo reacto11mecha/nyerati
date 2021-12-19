@@ -4,6 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
+packages/**/node_modules
 
 # testing
 /coverage
@@ -36,3 +37,6 @@ yarn-error.log*
 # application
 record/
 dist/
+
+# eslint report
+eslint_report.json
