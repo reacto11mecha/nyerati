@@ -5,13 +5,10 @@
   "author": "Ezra Khairan Permana <ezrakhairan123@gmail.com>",
   "homepage": "https://github.com/reacto11mecha/nyerati#readme",
   "license": "MIT",
-  "main": "src/index.jsx",
+  "main": "main.js",
   "files": [
     "dist/*"
   ],
-  "directories": {
-    "src": "src"
-  },
   "publishConfig": {
     "access": "public"
   },

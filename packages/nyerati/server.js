@@ -11,6 +11,7 @@ const {
   consoleListen,
 } = require("@nyerati/shared")(process);
 const udpSocket = require("@nyerati/nyudp");
+const distRoot = require("@nyerati/web-interface");
 
 const { socket } = require("./functions");
 const { processCoordWriter: processWriter } = require("./lib");
@@ -31,10 +32,6 @@ if (dev) {
 }
 
 function prodServer() {
-  const distRoot = path
-    .dirname(require.resolve("@nyerati/web-interface"))
-    .replace("src", "dist");
-
   const app = express();
 
   app.use(compression());
