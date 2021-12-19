@@ -17,6 +17,9 @@
     "test": "echo \"Error: run tests from root\" && exit 1",
     "start": "node ."
   },
+  "bin": {
+    "nyudp": "./cli.js"
+  },
   "bugs": {
     "url": "https://github.com/reacto11mecha/nyerati/issues"
   },
