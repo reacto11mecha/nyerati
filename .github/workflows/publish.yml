@@ -28,7 +28,8 @@ jobs:
       - name: Install Node Dependencies
         run: |
           sudo apt-get install libxtst-dev libpng++-dev
-          npm install
+          npx lerna bootstrap
+          npx lerna link
         env:
           CI: TRUE
 
