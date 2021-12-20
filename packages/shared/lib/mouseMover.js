@@ -16,13 +16,14 @@ const moveMouseWrapper = ({ config }, process) => () => {
     env: { ...process.env, recordText },
   });
 
-  fs.open(recordText, "r", (err) => {
-    if (err) {
-      if (!fs.existsSync(config.constant.recordFolder))
-        fs.mkdirSync(config.constant.recordFolder);
-      fs.writeFileSync(config.constant.recordText, "");
-    }
-  });
+  if (!fs.existsSync(config.constant.mainDir))
+    fs.mkdirSync(config.constant.mainDir);
+
+  if (!fs.existsSync(recordText)) {
+    if (!fs.existsSync(config.constant.recordFolder))
+      fs.mkdirSync(config.constant.recordFolder);
+    fs.writeFileSync(recordText, "");
+  }
 
   return (data) => {
     robot.moveMouse(data.x * COMPwidth, data.y * COMPheight);
