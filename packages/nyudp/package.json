@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "description": "UDP/datagram only version of nyerati, and without recording feature",
   "author": "Ezra Khairan Permana <ezrakhairan123@gmail.com>",
-  "homepage": "https://github.com/reacto11mecha/nyerati#readme",
+  "homepage": "https://github.com/reacto11mecha/nyerati/tree/main/packages/nyudp#readme",
   "license": "MIT",
   "main": "udp.js",
   "publishConfig": {

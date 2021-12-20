@@ -3,7 +3,7 @@
   "version": "1.1.0",
   "description": "Web interface for nyerati virtual pen tablet",
   "author": "Ezra Khairan Permana <ezrakhairan123@gmail.com>",
-  "homepage": "https://github.com/reacto11mecha/nyerati#readme",
+  "homepage": "https://github.com/reacto11mecha/nyerati/tree/main/packages/web-interface#readme",
   "license": "MIT",
   "main": "main.js",
   "files": [
@@ -21,7 +21,8 @@
     "start": "vite --port 3500",
     "dev": "vite --port 3500",
     "dev-host": "vite --host --port 3500",
-    "build": "vite build"
+    "build": "vite build",
+    "prepare": "npm run build"
   },
   "bugs": {
     "url": "https://github.com/reacto11mecha/nyerati/issues"

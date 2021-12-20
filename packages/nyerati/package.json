@@ -3,7 +3,7 @@
   "version": "1.0.1",
   "description": "Virtual tablet with android app and website interface",
   "author": "Ezra Khairan Permana <ezrakhairan123@gmail.com>",
-  "homepage": "https://github.com/reacto11mecha/nyerati#readme",
+  "homepage": "https://github.com/reacto11mecha/nyerati/tree/main/packages/nyerati#readme",
   "license": "MIT",
   "publishConfig": {
     "access": "public"
