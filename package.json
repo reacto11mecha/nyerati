@@ -20,9 +20,6 @@
     "dev:host": "concurrently \"lerna run dev --scope=@nyerati/nyerati --stream\" \"lerna run dev-host --scope=@nyerati/web-interface --stream\"",
     "dev:web": "lerna run dev --scope=@nyerati/web-interface --stream",
     "dev:web-host": "lerna run dev-host --scope=@nyerati/web-interface --stream",
-    "build": "lerna run build --scope=@nyerati/web-interface --stream",
-    "version": "lerna version --conventional-commits --conventional-graduate --yes",
-    "version:beta": "lerna version --conventional-commits --conventional-prerelease --preid beta --yes",
-    "publish": " lerna publish from-git --yes"
+    "build": "lerna run build --scope=@nyerati/web-interface --stream"
   }
 }
