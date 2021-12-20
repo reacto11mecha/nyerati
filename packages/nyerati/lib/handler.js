@@ -11,9 +11,9 @@ module.exports = async () => {
   const redOllie = chalk.hex("#D1070A");
   const anyaHair = chalk.hex("#FDD798");
 
-  function childHandler(child) {
+  function childHandler(child, isUDP) {
     child.stdout.on("data", (text) => {
-      if (text.includes("Local")) consoleListen();
+      if (text.includes("Local")) consoleListen(isUDP);
 
       if (text.includes("[Socket]")) {
         const event = text.split("[Socket]")[1].trim();
@@ -25,22 +25,6 @@ module.exports = async () => {
         const event = text.split("[UDP]")[1].trim();
 
         console.log(`[${anyaHair("UDP")}] ${event}`);
-      }
-
-      if (text.includes("You are")) {
-        console.log(
-          `${chalk.hex("#4C7DBE")(
-            "INFO"
-          )}: You are currently on udp mode, connect via nyerati mobile app only!\n`
-        );
-      }
-
-      if (text.includes("Start building")) {
-        console.log(`[${anyaHair("BUILD")}] Start building web interface`);
-      }
-
-      if (text.includes("\n[BUILD]")) {
-        console.log(`[${chalk.green("BUILD")}] Success building web interface`);
       }
     });
 
