@@ -1,6 +1,6 @@
 {
   "name": "@nyerati/nyudp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "UDP/datagram only version of nyerati, and without recording feature",
   "author": "Ezra Khairan Permana <ezrakhairan123@gmail.com>",
   "homepage": "https://github.com/reacto11mecha/nyerati#readme",

@@ -1,6 +1,6 @@
 {
   "name": "@nyerati/nyerati",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Virtual tablet with android app and website interface",
   "author": "Ezra Khairan Permana <ezrakhairan123@gmail.com>",
   "homepage": "https://github.com/reacto11mecha/nyerati#readme",
@@ -32,8 +32,8 @@
     "nodemon": "^2.0.15"
   },
   "dependencies": {
-    "@nyerati/nyudp": "*",
-    "@nyerati/shared": "*",
+    "@nyerati/nyudp": "^1.1.0",
+    "@nyerati/shared": "^1.0.1",
     "clear": "^0.1.0",
     "commander": "^8.3.0",
     "compression": "^1.7.4",
