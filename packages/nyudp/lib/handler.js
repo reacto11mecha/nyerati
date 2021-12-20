@@ -24,6 +24,8 @@ const childHandler = (redOllie, anyaHair, child, port) => {
       console.log(
         `[${redOllie("Error")}] The port ${port} is already in use | EADDRINUSE`
       );
+    } else {
+      console.log(`[${redOllie("Error")}] ${text}`);
     }
   });
 };

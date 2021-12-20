@@ -35,6 +35,8 @@ module.exports = async () => {
             "Error"
           )}] The port ${port} is already in use | EADDRINUSE`
         );
+      } else {
+        console.log(`[${redOllie("Error")}] ${text}`);
       }
     });
   }
