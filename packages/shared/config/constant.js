@@ -11,11 +11,19 @@ module.exports = function (process) {
   const isRecording = process.env.RECORD === "record";
   const recordFolder = path.join(mainDir, "record");
   const recordText = path.join(recordFolder, "coord.txt");
-  const recordJson = path.join(recordFolder, "convert.json");
+  const recordJson = () => {
+    const date = new Date();
+
+    // yyyy-dd-m_HH-MM-ss
+    const filename = `${date.getFullYear()}-${date.getDate()}-${date.getMonth()}_${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}.json`;
+
+    return path.join(recordFolder, filename);
+  };
 
   return {
     dev,
     port,
+    mainDir,
     isRecording,
     recordFolder,
     recordText,
