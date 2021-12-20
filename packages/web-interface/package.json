@@ -22,7 +22,7 @@
     "dev": "vite --port 3500",
     "dev-host": "vite --host --port 3500",
     "build": "vite build",
-    "prepare": "npm run build"
+    "prepublishOnly": "npm run build"
   },
   "bugs": {
     "url": "https://github.com/reacto11mecha/nyerati/issues"
