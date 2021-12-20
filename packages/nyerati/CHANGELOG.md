@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/reacto11mecha/nyerati/compare/@nyerati/nyerati@1.0.3...@nyerati/nyerati@1.0.4) (2021-12-20)
+
+
+### Bug Fixes
+
+* **deps:** install missing dependency ([5dca92d](https://github.com/reacto11mecha/nyerati/commit/5dca92db1d7bb17918fc5ae6014ff09c1f5a17c1))
+* show error when child process running incorrectly ([7981e92](https://github.com/reacto11mecha/nyerati/commit/7981e927e26feacb3b2cdf83cf6016ef91277aa9))
+
+
+
+
+
 ## [1.0.3](https://github.com/reacto11mecha/nyerati/compare/@nyerati/nyerati@1.0.2...@nyerati/nyerati@1.0.3) (2021-12-20)
 
 
