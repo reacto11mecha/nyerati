@@ -1,6 +1,6 @@
 {
   "name": "@nyerati/web-interface",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Web interface for nyerati virtual pen tablet",
   "author": "Ezra Khairan Permana <ezrakhairan123@gmail.com>",
   "homepage": "https://github.com/reacto11mecha/nyerati/tree/main/packages/web-interface#readme",
@@ -32,7 +32,7 @@
     "vite-plugin-solid": "^2.1.4"
   },
   "dependencies": {
-    "@nyerati/shared": "^1.0.2",
+    "@nyerati/shared": "^1.1.0",
     "@rturnq/solid-router": "^0.3.0",
     "picnic": "^6.5.5",
     "socket.io-client": "^4.4.0",
