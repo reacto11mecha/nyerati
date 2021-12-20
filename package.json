@@ -1,6 +1,7 @@
 {
   "name": "nyerati",
   "private": true,
+  "description": "Web interface for nyerati virtual pen tablet",
   "devDependencies": {
     "concurrently": "^6.5.0",
     "eslint": "^8.5.0",
