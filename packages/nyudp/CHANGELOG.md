@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.4](https://github.com/reacto11mecha/nyerati/compare/@nyerati/nyudp@1.1.3...@nyerati/nyudp@1.1.4) (2021-12-20)
+
+
+### Bug Fixes
+
+* **deps:** install missing `@nyerati/shared` dependency ([bef7132](https://github.com/reacto11mecha/nyerati/commit/bef713296eecbe4b80d038365b652826f5b3f3e2))
+
+
+
+
+
 ## [1.1.3](https://github.com/reacto11mecha/nyerati/compare/@nyerati/nyudp@1.1.2...@nyerati/nyudp@1.1.3) (2021-12-20)
 
 
