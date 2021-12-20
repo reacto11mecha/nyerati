@@ -21,6 +21,7 @@
     "dev:host": "concurrently \"lerna run dev --scope=@nyerati/nyerati --stream\" \"lerna run dev-host --scope=@nyerati/web-interface --stream\"",
     "dev:web": "lerna run dev --scope=@nyerati/web-interface --stream",
     "dev:web-host": "lerna run dev-host --scope=@nyerati/web-interface --stream",
-    "build": "lerna run build --scope=@nyerati/web-interface --stream"
+    "build": "lerna run build --scope=@nyerati/web-interface --stream",
+    "parse": "lerna run parse --scope=@nyerati/nyerati --stream"
   }
 }
