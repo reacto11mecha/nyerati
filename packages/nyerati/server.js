@@ -1,54 +1,43 @@
-const http = require("http");
-const path = require("path");
-const express = require("express");
-const compression = require("compression");
-
 const {
   config: {
-    constant: { port, dev },
+    constant: { dev, port },
   },
-  lib,
   consoleListen,
+  lib,
 } = require("@nyerati/shared")(process);
-const udpSocket = require("@nyerati/nyudp");
-const distRoot = require("@nyerati/web-interface");
 
-const { socket } = require("./functions");
-const { processCoordWriter: processWriter } = require("./lib");
+const start = async () => {
+  const app = require("./app");
 
-let user = [];
-
-const moveMouse = lib.moveMouse();
+  try {
+    await app.listen(port, "0.0.0.0");
+    consoleListen();
+  } catch (err) {
+    app.log.error(err);
+    process.exit(1);
+  }
+};
 
 if (dev) {
-  socket(user, moveMouse);
-  udpSocket(user, moveMouse).then((socket) => {
-    socket.bind(port);
+  const socketIO = require("socket.io");
+  const connectivity = require("./plugin/connectivity");
 
-    consoleListen();
-  });
+  let user = [];
+  const mouseMover = lib.moveMouse();
+
+  (async () =>
+    await Promise.all([
+      connectivity.controller(user, mouseMover), // Socket io
+      connectivity.udpSocket(user, mouseMover), // UDP
+    ]).then(([socketOnConnection, udp]) => {
+      const Sock = socketIO(connectivity.mainConfig);
+      Sock.on("connection", socketOnConnection);
+
+      udp.bind(port);
+      Sock.listen(port);
+
+      consoleListen();
+    }))();
 } else {
-  prodServer();
+  start();
 }
-
-function prodServer() {
-  const app = express();
-
-  app.use(compression());
-
-  app.use(express.static(distRoot));
-  app.get("/*", function (req, res) {
-    res.sendFile(path.join(distRoot, "index.html"));
-  });
-
-  const server = http.createServer(app);
-
-  udpSocket(user, moveMouse).then((socketUDP) => {
-    socketUDP.bind(port);
-
-    socket(user, moveMouse, server);
-    server.listen(port, consoleListen);
-  });
-}
-
-processWriter(process);

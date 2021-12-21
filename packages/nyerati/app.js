@@ -7,6 +7,10 @@ fastify.register(require("fastify-autoload"), {
   dir: path.join(__dirname, "plugin"),
 });
 
+const api = require("./route/api");
+
+fastify.register(api, { prefix: "/api" });
+
 processWriter(process);
 
 module.exports = fastify;
