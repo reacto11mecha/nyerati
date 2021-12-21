@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/reacto11mecha/nyerati/compare/@nyerati/nyerati@1.0.6...@nyerati/nyerati@1.1.0) (2021-12-21)
+
+
+### Bug Fixes
+
+* move socket io and udp to `connectivity.js` plugin section ([01ad024](https://github.com/reacto11mecha/nyerati/commit/01ad0249167c61d51b89fe810c7293b6f441593c))
+
+
+### Features
+
+* create app.js ([999cc5c](https://github.com/reacto11mecha/nyerati/commit/999cc5c25a449744a52f201bfeaa524e7e256bf9))
+* **deps:** change express to fastify stack ([16e8af4](https://github.com/reacto11mecha/nyerati/commit/16e8af4fb2eed75970b936f717f419161908f1e9))
+* main route plugin for serve web interface module ([f11e0fe](https://github.com/reacto11mecha/nyerati/commit/f11e0fefd8d31e2329fcf2fb52380b484083bf50))
+* serve files information via api route ([48127ae](https://github.com/reacto11mecha/nyerati/commit/48127aedcf89c5fd28f86d66acbc2d43dbafac06))
+
+
+
+
+
 ## [1.0.6](https://github.com/reacto11mecha/nyerati/compare/@nyerati/nyerati@1.0.5...@nyerati/nyerati@1.0.6) (2021-12-21)
 
 **Note:** Version bump only for package @nyerati/nyerati
