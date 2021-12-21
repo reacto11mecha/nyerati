@@ -1,0 +1,25 @@
+{
+  "name": "website",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Website for nyerati",
+  "author": "Ezra Khairan Permana <ezrakhairan123@gmail.com>",
+  "homepage": "https://nyerati.rmecha.my.id",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "bugs": {
+    "url": "https://github.com/reacto11mecha/nyerati/issues"
+  },
+  "dependencies": {
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^1.0.7",
+    "vite": "^2.7.2"
+  }
+}
