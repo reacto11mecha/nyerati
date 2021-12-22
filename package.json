@@ -3,9 +3,16 @@
   "private": true,
   "description": "Web interface for nyerati virtual pen tablet",
   "devDependencies": {
+    "@commitlint/cli": "^15.0.0",
+    "@commitlint/config-conventional": "^15.0.0",
+    "@commitlint/config-lerna-scopes": "^15.0.0",
     "concurrently": "^6.5.0",
     "eslint": "^8.5.0",
-    "lerna": "^4.0.0"
+    "eslint-config-prettier": "^8.3.0",
+    "husky": "^7.0.4",
+    "lerna": "^4.0.0",
+    "lint-staged": "^12.1.3",
+    "prettier": "^2.5.1"
   },
   "workspaces": [
     "packages/*"
@@ -22,6 +29,11 @@
     "dev:web": "lerna run dev --scope=@nyerati/web-interface --stream",
     "dev:web-host": "lerna run dev-host --scope=@nyerati/web-interface --stream",
     "build": "lerna run build --scope=@nyerati/web-interface --stream",
-    "parse": "lerna run parse --scope=@nyerati/nyerati --stream"
+    "parse": "lerna run parse --scope=@nyerati/nyerati --stream",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix",
+    "*.{js,css,md}": "prettier --write"
   }
 }
