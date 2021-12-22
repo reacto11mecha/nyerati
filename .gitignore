@@ -40,3 +40,6 @@ dist/
 
 # eslint report
 eslint_report.json
+
+# eslint cache
+.eslintcache
