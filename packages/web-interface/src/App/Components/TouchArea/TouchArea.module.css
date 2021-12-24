@@ -48,3 +48,13 @@
 .statusInfo {
   margin-left: 1rem;
 }
+
+@media (max-width: 576px) {
+  .statusInfo {
+    margin-left: 0.5rem;
+  }
+
+  .bottomSpace {
+    font-size: 0.9rem;
+  }
+}
