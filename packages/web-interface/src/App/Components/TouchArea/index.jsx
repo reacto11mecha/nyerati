@@ -1,12 +1,18 @@
 import { onMount, onCleanup } from "solid-js";
 import styles from "./TouchArea.module.css";
 import { io } from "socket.io-client";
+import screenfull from "screenfull";
 
 const { DEV: dev } = import.meta.env;
 
 function TouchArea() {
   let touchArea;
   let socket;
+
+  const toggleFullScreen = (e) => {
+    e.target.blur();
+    screenfull.toggle(touchArea, { navigationUI: "hide" });
+  };
 
   const handler = (evt) =>
     void socket.emit("touch", {
@@ -15,7 +21,7 @@ function TouchArea() {
     });
 
   onMount(() => {
-    var supportsPassive = false;
+    let supportsPassive = false;
     try {
       var opts = Object.defineProperty({}, "passive", {
         get: function () {
@@ -52,11 +58,17 @@ function TouchArea() {
   return (
     <div className={styles.mainContainer}>
       <div>
-        <article class={`card ${styles.CardMax}`} ref={touchArea}>
-          <header>
-            <h3 className={styles.selectNone}>Touch and drag here</h3>
-          </header>
-        </article>
+        <div
+          class={`card ${styles.CardMax} ${styles.selectNone}`}
+          ref={touchArea}
+        >
+          <div className={styles.topSpace}>
+            <h3 className={styles.touchAndDrag}>Touch and drag here</h3>
+          </div>
+          <div className={styles.bottomSpace}>
+            <button onClick={toggleFullScreen}>Toggle Full Screen</button>
+          </div>
+        </div>
       </div>
     </div>
   );
