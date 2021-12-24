@@ -3,6 +3,7 @@
   height: 100vh;
   align-items: flex-end;
   justify-content: center;
+  background-color: var(--background);
 }
 
 .CardMax {
@@ -13,7 +14,9 @@
   justify-content: center;
   top: 10.3px;
   border-radius: 0.5em;
-  border: 1.5px solid #aaa;
+  border: 1.5px solid var(--background);
+  color: var(--text);
+  background-color: var(--background-secondary);
 }
 
 .selectNone {
