@@ -1,5 +1,5 @@
-.navbar {
-  background-color: var(--background);
+.automaticChangeColor {
+  background-color: var(--background) !important;
   color: var(--text);
 }
 

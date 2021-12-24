@@ -20,7 +20,7 @@ function Navbar() {
   let checkbox;
 
   return (
-    <nav className={styles.navbar}>
+    <nav className={styles.automaticChangeColor}>
       <Link href="/" className={`brand ${styles.noDecor}`}>
         <span>Nyerati</span>
       </Link>
@@ -30,7 +30,7 @@ function Navbar() {
         &#8801;
       </label>
 
-      <div className="menu">
+      <div className={`menu ${styles.automaticChangeColor}`}>
         <For each={navLink()}>
           {(nav) => (
             <Link
