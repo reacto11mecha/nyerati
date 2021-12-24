@@ -1,20 +1,22 @@
-import { Switch, lazy } from "solid-js";
-import { MatchRoute } from "@rturnq/solid-router";
+import { lazy } from "solid-js";
+import { Routes, Route, Link } from "solid-app-router";
 
 import Navbar from "./Components/Navbar";
 import NotFound from "./Components/NotFound";
 
 const TouchArea = lazy(() => import("./Components/TouchArea"));
+const ReplayList = lazy(() => import("./Components/ReplayList"));
 
 function App() {
   return (
     <>
       <Navbar />
-      <Switch fallback={NotFound}>
-        <MatchRoute end>
-          <TouchArea />
-        </MatchRoute>
-      </Switch>
+      <Routes>
+        <Route path="/replay" element={<ReplayList />} />
+        <Route path="/replay/:filename" element={() => <p>filename</p>} />
+        <Route path="/" element={<TouchArea />} />
+        <Route path="/*all" element={<NotFound />} />
+      </Routes>
     </>
   );
 }

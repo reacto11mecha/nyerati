@@ -1,5 +1,5 @@
 import { createSignal, For } from "solid-js";
-import { Link } from "@rturnq/solid-router";
+import { Link } from "solid-app-router";
 import styles from "./Navbar.module.css";
 
 function Navbar() {

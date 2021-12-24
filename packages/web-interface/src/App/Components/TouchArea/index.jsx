@@ -15,10 +15,29 @@ function TouchArea() {
     });
 
   onMount(() => {
+    var supportsPassive = false;
+    try {
+      var opts = Object.defineProperty({}, "passive", {
+        get: function () {
+          supportsPassive = true;
+        },
+      });
+      window.addEventListener("testPassive", null, opts);
+      window.removeEventListener("testPassive", null, opts);
+    } catch (e) {}
+
     socket = dev ? io(`http://${location.hostname}:${portDev}`) : io();
 
-    touchArea.addEventListener("touchstart", handler);
-    touchArea.addEventListener("touchmove", handler);
+    touchArea.addEventListener(
+      "touchstart",
+      handler,
+      supportsPassive ? { passive: true } : false
+    );
+    touchArea.addEventListener(
+      "touchmove",
+      handler,
+      supportsPassive ? { passive: true } : false
+    );
   });
 
   onCleanup(() => {

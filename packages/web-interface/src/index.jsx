@@ -1,13 +1,14 @@
 import { render } from "solid-js/web";
-import { Router, pathIntegration } from "@rturnq/solid-router";
+import { Router } from "solid-app-router";
 
 import "picnic/picnic.min.css";
 import App from "./App";
 
-const Root = () => (
-  <Router integration={pathIntegration()}>
-    <App />
-  </Router>
+render(
+  () => (
+    <Router>
+      <App />
+    </Router>
+  ),
+  document.getElementById("root")
 );
-
-render(Root, document.getElementById("root"));
