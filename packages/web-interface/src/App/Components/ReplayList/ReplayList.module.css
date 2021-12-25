@@ -1,0 +1,17 @@
+.mainContainer {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+  color: var(--text);
+  background-color: var(--background-secondary);
+}
+
+.cardList {
+  background-color: var(--background);
+  min-width: 20rem;
+}
+
+.fileListHeading {
+  padding-left: 2.09ch !important;
+}
