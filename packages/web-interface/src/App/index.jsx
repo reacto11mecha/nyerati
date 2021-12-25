@@ -7,6 +7,7 @@ import { useDarkMode } from "./Context/DarkMode";
 
 const TouchArea = lazy(() => import("./Components/TouchArea"));
 const ReplayList = lazy(() => import("./Components/ReplayList"));
+const ReplayFile = lazy(() => import("./Components/ReplayFile"));
 
 function App() {
   const { isDarkMode } = useDarkMode();
@@ -16,7 +17,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/replay" element={<ReplayList />} />
-        <Route path="/replay/:filename" element={() => <p>filename</p>} />
+        <Route path="/replay/:filename" element={<ReplayFile />} />
         <Route path="/" element={<TouchArea />} />
         <Route path="/*all" element={<NotFound />} />
       </Routes>
