@@ -56,7 +56,12 @@ module.exports = (fastify, opts, done) => {
       const toFilePath = path.join(recordFolder, req.params.file);
       const content = fs.readFileSync(toFilePath, "utf8");
 
-      reply.send(content);
+      const data = content.map((dat, idx) => ({
+        ...dat,
+        diff: idx == 0 ? 0 : dat.d - content[idx - 1].d,
+      }));
+
+      reply.send(data);
     }
   );
 
