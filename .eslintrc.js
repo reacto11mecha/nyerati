@@ -4,7 +4,8 @@ module.exports = {
     es2021: true,
     node: true,
   },
-  extends: ["eslint:recommended", "prettier"],
+  plugins: ["solid"],
+  extends: ["eslint:recommended", "prettier", "plugin:solid/recommended"],
   parserOptions: {
     ecmaVersion: 13,
     sourceType: "module",
