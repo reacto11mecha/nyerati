@@ -1,13 +1,20 @@
 import { render } from "solid-js/web";
-import { Router, pathIntegration } from "@rturnq/solid-router";
+import { Router } from "solid-app-router";
 
 import "picnic/picnic.min.css";
+import "./index.css";
+
 import App from "./App";
 
-const Root = () => (
-  <Router integration={pathIntegration()}>
-    <App />
-  </Router>
-);
+import { ContextProvider } from "./App/Context/DarkMode";
 
-render(Root, document.getElementById("root"));
+render(
+  () => (
+    <Router>
+      <ContextProvider>
+        <App />
+      </ContextProvider>
+    </Router>
+  ),
+  document.getElementById("root")
+);

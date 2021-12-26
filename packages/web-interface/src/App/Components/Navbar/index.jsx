@@ -1,8 +1,11 @@
 import { createSignal, For } from "solid-js";
-import { Link } from "@rturnq/solid-router";
+import { Link } from "solid-app-router";
 import styles from "./Navbar.module.css";
 
+import { useDarkMode } from "../../Context/DarkMode";
+
 function Navbar() {
+  const { isDarkMode, setDarkMode } = useDarkMode();
   const [navLink] = createSignal([
     {
       href: "/",
@@ -17,7 +20,7 @@ function Navbar() {
   let checkbox;
 
   return (
-    <nav>
+    <nav className={styles.automaticChangeColor}>
       <Link href="/" className={`brand ${styles.noDecor}`}>
         <span>Nyerati</span>
       </Link>
@@ -27,7 +30,7 @@ function Navbar() {
         &#8801;
       </label>
 
-      <div className="menu">
+      <div className={`menu ${styles.automaticChangeColor}`}>
         <For each={navLink()}>
           {(nav) => (
             <Link
@@ -43,6 +46,15 @@ function Navbar() {
             </Link>
           )}
         </For>
+        <label className={styles.switch}>
+          <input
+            type="checkbox"
+            checked={isDarkMode()}
+            onChange={() => setDarkMode((prev) => !prev)}
+            className={styles.checkboxInput}
+          />
+          <span className={`${styles.slider} ${styles.sliderRound}`}></span>
+        </label>
       </div>
     </nav>
   );

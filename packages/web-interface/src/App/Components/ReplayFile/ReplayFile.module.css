@@ -17,24 +17,10 @@
   background-color: var(--background-secondary);
 }
 
-.selectNone {
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
 .topSpace {
   display: flex;
   width: 100%;
   height: 90%;
-}
-
-.touchAndDrag {
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%) translateY(-50%);
-  text-align: center;
-  position: absolute;
 }
 
 .bottomSpace {
@@ -45,22 +31,22 @@
   position: absolute;
 }
 
+.marLeft {
+  margin-left: 0.3rem;
+}
+
 .statusInfo {
   transition: none;
   cursor: initial;
-  margin-left: 1rem;
 }
 
 .statusInfo:hover {
   box-shadow: initial;
 }
 
-@media (max-width: 576px) {
-  .statusInfo {
-    margin-left: 0.5rem;
-  }
-
-  .bottomSpace {
-    font-size: 0.9rem;
-  }
+.centered {
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  display: flex;
 }

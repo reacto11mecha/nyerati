@@ -29,8 +29,6 @@ const _controller = async (user, moveMouse) => {
 
     socc.on("touch", moveMouse);
 
-    socc.on("check:ping", () => socc.emit("check:pong"));
-
     socc.on("disconnect", () => {
       if (user.length > 0 && user.includes(socc.id)) {
         const index = user.indexOf(socc.id);

@@ -19,6 +19,7 @@
     "dev:record": "cross-env RECORD=record nodemon server.js",
     "start": "cross-env NODE_ENV=production node server.js",
     "record": "cross-env NODE_ENV=production RECORD=record node server.js",
+    "indev-prod": "cross-env NODE_ENV=production nodemon node server.js",
     "udp": "node udpOnly.js",
     "udp-record": "cross-env NODE_ENV=production RECORD=record node udpOnly.js",
     "parse": "node functions/parsecoord.js"
@@ -43,6 +44,7 @@
     "fastify": "^3.25.0",
     "fastify-autoload": "^3.9.0",
     "fastify-compress": "^4.0.1",
+    "fastify-cors": "^6.0.2",
     "fastify-plugin": "^3.0.0",
     "fastify-socket.io": "^3.0.0",
     "fastify-static": "^4.5.0",

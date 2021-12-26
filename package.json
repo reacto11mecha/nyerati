@@ -23,6 +23,7 @@
     "start": "lerna run start --scope=@nyerati/nyerati --stream",
     "start:udp": "lerna run udp --scope=@nyerati/nyerati --stream",
     "start:udp-record": "lerna run udp-record --scope=@nyerati/nyerati --stream",
+    "start:server-prod-web-dev": "concurrently \"lerna run indev-prod --scope=@nyerati/nyerati --stream\" \"lerna run dev-host --scope=@nyerati/web-interface --stream\"",
     "nyudp": "lerna run start --scope=@nyerati/nyudp --stream",
     "dev": "lerna run dev --scope=@nyerati/nyerati --scope=@nyerati/web-interface --stream",
     "dev:host": "concurrently \"lerna run dev --scope=@nyerati/nyerati --stream\" \"lerna run dev-host --scope=@nyerati/web-interface --stream\"",
