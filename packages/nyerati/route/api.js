@@ -55,13 +55,14 @@ module.exports = (fastify, opts, done) => {
     (req, reply) => {
       const toFilePath = path.join(recordFolder, req.params.file);
       const content = fs.readFileSync(toFilePath, "utf8");
+      const data = JSON.parse(content);
 
-      const data = content.map((dat, idx) => ({
+      const remap = data.map((dat, idx) => ({
         ...dat,
         diff: idx == 0 ? 0 : dat.d - content[idx - 1].d,
       }));
 
-      reply.send(data);
+      reply.send(remap);
     }
   );
 
