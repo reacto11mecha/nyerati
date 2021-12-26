@@ -1,0 +1,52 @@
+.mainContainer {
+  display: flex;
+  height: 100vh;
+  align-items: flex-end;
+  justify-content: center;
+  background-color: var(--background);
+}
+
+.CardMax {
+  display: flex;
+  width: 100vw;
+  height: calc(100vh - 3em);
+  top: 10.3px;
+  border-radius: 0.5em;
+  border: 1.5px solid var(--background);
+  color: var(--text);
+  background-color: var(--background-secondary);
+}
+
+.topSpace {
+  display: flex;
+  width: 100%;
+  height: 90%;
+}
+
+.bottomSpace {
+  bottom: 0%;
+  left: 0%;
+  transform: translateX(-50%) translateX(54%);
+  text-align: center;
+  position: absolute;
+}
+
+.marLeft {
+  margin-left: 0.3rem;
+}
+
+.statusInfo {
+  transition: none;
+  cursor: initial;
+}
+
+.statusInfo:hover {
+  box-shadow: initial;
+}
+
+.centered {
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  display: flex;
+}
