@@ -9,6 +9,7 @@
     "concurrently": "^6.5.0",
     "eslint": "^8.5.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-solid": "^0.1.2",
     "husky": "^7.0.4",
     "lerna": "^4.0.0",
