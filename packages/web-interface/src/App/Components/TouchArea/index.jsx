@@ -96,17 +96,17 @@ export default function TouchArea() {
           </div>
           <div className={styles.bottomSpace}>
             <button onClick={toggleFullScreen}>Toggle Fullscreen</button>
-            <button
+            <div
               onClick={(e) => e.target.blur()}
               style={`background-color: ${bgStatus()}`}
-              className={styles.statusInfo}
+              className={`button ${styles.statusInfo}`}
             >
               Status:{" "}
               <Switch fallback={"N/A"}>
                 <Match when={connection()}>CONNECTED</Match>
                 <Match when={connection() === false}>DISCONNECTED</Match>
               </Switch>
-            </button>
+            </div>
           </div>
         </div>
       </div>

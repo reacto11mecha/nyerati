@@ -46,7 +46,13 @@
 }
 
 .statusInfo {
+  transition: none;
+  cursor: initial;
   margin-left: 1rem;
+}
+
+.statusInfo:hover {
+  box-shadow: initial;
 }
 
 @media (max-width: 576px) {
