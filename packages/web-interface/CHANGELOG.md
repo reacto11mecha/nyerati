@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/reacto11mecha/nyerati/compare/@nyerati/web-interface@1.2.0...@nyerati/web-interface@1.3.0) (2021-12-28)
+
+### Bug Fixes
+
+- **web-interface:** change margin and font size when mobile ([a34193d](https://github.com/reacto11mecha/nyerati/commit/a34193d210dac94e2241c47fca448d0a10397823))
+
+### Features
+
+- **web-interface:** create duration indicator and proper conditioning stop button ([5797842](https://github.com/reacto11mecha/nyerati/commit/5797842605e6c8891093483c65382edfceddf38d))
+
 # [1.2.0](https://github.com/reacto11mecha/nyerati/compare/@nyerati/web-interface@1.1.2...@nyerati/web-interface@1.2.0) (2021-12-26)
 
 ### Bug Fixes
