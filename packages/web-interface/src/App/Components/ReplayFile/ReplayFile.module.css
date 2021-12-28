@@ -50,3 +50,13 @@
   width: 100%;
   display: flex;
 }
+
+@media (max-width: 576px) {
+  .marLeft {
+    margin-left: 0.15rem;
+  }
+
+  .bottomSpace {
+    font-size: 0.7rem;
+  }
+}
