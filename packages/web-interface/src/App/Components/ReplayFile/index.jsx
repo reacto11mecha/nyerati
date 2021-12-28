@@ -14,7 +14,16 @@ export default function ReplayFile() {
     buttonColor.play()
   );
 
-  const { file, state, playing, position, stop, toggle } = useReplay();
+  const {
+    file,
+    state,
+    playing,
+    position,
+    duration,
+    isPositionExist,
+    stop,
+    toggle,
+  } = useReplay();
 
   let canvas;
 
@@ -69,11 +78,16 @@ export default function ReplayFile() {
                 <button
                   className={styles.marLeft}
                   style={`background-color: ${stopButton()}`}
-                  disabled={!playing()}
+                  disabled={!isPositionExist()}
                   onClick={stop}
                 >
                   Stop
                 </button>
+                <div
+                  className={`button warning ${styles.marLeft} ${styles.statusInfo}`}
+                >
+                  Duration: {duration()}
+                </div>
                 <div
                   className={`button ${styles.marLeft} ${styles.statusInfo}`}
                 >
