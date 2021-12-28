@@ -1,5 +1,19 @@
-import { createResource, createSignal, createEffect } from "solid-js";
+import {
+  createResource,
+  createMemo,
+  createSignal,
+  createEffect,
+} from "solid-js";
 import { useParams } from "solid-app-router";
+
+const millisToMinutesAndSeconds = (millis) => {
+  const minutes = Math.floor(millis / 60000);
+  const seconds = ((millis % 60000) / 1000).toFixed(0);
+
+  return `${minutes < 10 ? "0" : ""}${minutes}:${
+    seconds < 10 ? "0" : ""
+  }${seconds}`;
+};
 
 const { DEV: dev } = import.meta.env;
 const fetchFile = async (filename) =>
@@ -32,6 +46,19 @@ export default function useReplay() {
 
   const [state, setState] = createSignal("LOADING");
 
+  const formattedDuration = createMemo(() => {
+    const data = file();
+
+    if (isArrayOfObject(data) && state() === "LOADED") {
+      const firstTime = new Date(data[0].d);
+      const lastTime = new Date(data[data.length - 1].d);
+
+      return millisToMinutesAndSeconds(lastTime - firstTime);
+    }
+
+    return null;
+  }, null);
+
   /*
    * null => Stopped
    * false => Paused
@@ -39,6 +66,12 @@ export default function useReplay() {
    */
   const [playing, setPlaying] = createSignal(null);
   const [position, setPosition] = createSignal(currentCoordinate);
+
+  const isPositionExist = createMemo(() => {
+    const pos = position();
+
+    return pos.x !== undefined && pos.y !== undefined;
+  }, false);
 
   const getEntry = (idx) => file()[idx];
 
@@ -134,5 +167,7 @@ export default function useReplay() {
     toggle,
     playing,
     position,
+    isPositionExist,
+    duration: formattedDuration,
   };
 }
