@@ -111,7 +111,7 @@ export default function useReplay() {
     setPosition(newPos);
 
     updaterTimeout = setTimeout(
-      () => processEntry(nextEntry, index),
+      () => requestAnimationFrame(() => processEntry(nextEntry, index)),
       entry.diff
     );
   };
@@ -123,7 +123,7 @@ export default function useReplay() {
         currentCoordinate.y === undefined
       ) {
         const data = getEntry(0);
-        processEntry(data, 0);
+        requestAnimationFrame(() => processEntry(data, 0));
       } else {
         const index =
           file().findIndex(
@@ -131,7 +131,7 @@ export default function useReplay() {
           ) + 1;
 
         const data = getEntry(index);
-        processEntry(data, index);
+        requestAnimationFrame(() => processEntry(data, index));
       }
     }
   });
