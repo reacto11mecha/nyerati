@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.2](https://github.com/reacto11mecha/nyerati/compare/@nyerati/nyerati@1.2.1...@nyerati/nyerati@1.2.2) (2021-12-29)
+
+### Bug Fixes
+
+- **nyerati:** change wrong variable ([729a50e](https://github.com/reacto11mecha/nyerati/commit/729a50e7be7b52187f5bb41343aa80f5f896ae0a))
+
 ## [1.2.1](https://github.com/reacto11mecha/nyerati/compare/@nyerati/nyerati@1.2.0...@nyerati/nyerati@1.2.1) (2021-12-28)
 
 **Note:** Version bump only for package @nyerati/nyerati
