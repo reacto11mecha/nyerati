@@ -1,4 +1,5 @@
-import { createSignal, createEffect, Switch, Match } from "solid-js";
+import { createSignal, createEffect, Switch, Match, onCleanup } from "solid-js";
+import Konva from "konva";
 
 import styles from "./ReplayFile.module.css";
 import useReplay from "../../Hook/useReplay";
@@ -14,6 +15,9 @@ export default function ReplayFile() {
     buttonColor.play()
   );
 
+  const strokeCircle = useColorModeValue("black", "#171923");
+  const fillCircle = useColorModeValue("#4FD1C5", "#38B2AC");
+
   const {
     file,
     state,
@@ -25,23 +29,31 @@ export default function ReplayFile() {
     toggle,
   } = useReplay();
 
-  let canvas;
+  let container;
+  let stage;
+  let circle;
+
+  const updateStage = () => {
+    if (stage) {
+      stage.width(container.clientWidth);
+      stage.height(container.clientHeight);
+
+      if (!playing() && !isPositionExist()) {
+        circle.x(container.clientWidth / 2);
+        circle.y(container.clientHeight / 2);
+      }
+    }
+  };
 
   createEffect(() => {
     const pos = position();
 
-    if (canvas) {
-      const ctx = canvas.getContext("2d");
+    if (pos.x !== undefined && pos.y !== undefined && container && circle) {
+      stage.width(container.clientWidth);
+      stage.height(container.clientHeight);
 
-      const x = pos.x * canvas.width;
-      const y = pos.y * canvas.height;
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.beginPath();
-      ctx.arc(x, y, 10, 0, Math.PI * 2);
-      ctx.fillStyle = "#38B2AC";
-      ctx.fill();
-      ctx.closePath();
+      circle.x(pos.x * stage.width());
+      circle.y(pos.y * stage.height());
     }
   });
 
@@ -50,6 +62,51 @@ export default function ReplayFile() {
       setControlBtnColor(buttonColor.pause());
     } else {
       setControlBtnColor(buttonColor.play());
+    }
+  });
+
+  createEffect(() => {
+    if (!isPositionExist() && container && circle) {
+      stage.width(container.clientWidth);
+      stage.height(container.clientHeight);
+
+      circle.x(container.clientWidth / 2);
+      circle.y(container.clientHeight / 2);
+    }
+  });
+
+  createEffect(() => {
+    // One time event, so it's ok to put it on createEffect
+    if (state() === "LOADED") {
+      stage = new Konva.Stage({
+        container,
+        width: container.clientWidth,
+        height: container.clientHeight,
+      });
+
+      const layer = new Konva.Layer();
+
+      circle = new Konva.Circle({
+        x: stage.width() / 2,
+        y: stage.height() / 2,
+        radius: 20,
+        fill: fillCircle(),
+        stroke: strokeCircle(),
+        strokeWidth: 1.5,
+      });
+
+      layer.add(circle);
+      stage.add(layer);
+
+      window.addEventListener("resize", updateStage);
+    }
+  });
+
+  onCleanup(() => {
+    stop();
+
+    if (container) {
+      window.removeEventListener("resize", updateStage);
     }
   });
 
@@ -65,9 +122,7 @@ export default function ReplayFile() {
               <h3 className={styles.centered}>{file().message}</h3>
             </Match>
             <Match when={state() === "LOADED"}>
-              <div className={styles.topSpace}>
-                <canvas ref={canvas}></canvas>
-              </div>
+              <div ref={container} className={styles.topSpace}></div>
               <div className={styles.bottomSpace}>
                 <button
                   style={`background-color: ${controlBtnColor()}`}
