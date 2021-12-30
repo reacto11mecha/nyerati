@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/reacto11mecha/nyerati/compare/@nyerati/nyudp@1.2.0...@nyerati/nyudp@1.2.1) (2021-12-30)
+
+**Note:** Version bump only for package @nyerati/nyudp
+
 # [1.2.0](https://github.com/reacto11mecha/nyerati/compare/@nyerati/nyudp@1.1.4...@nyerati/nyudp@1.2.0) (2021-12-30)
 
 ### Features

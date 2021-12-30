@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/reacto11mecha/nyerati/compare/@nyerati/web-interface@1.3.1...@nyerati/web-interface@1.4.0) (2021-12-30)
+
+### Features
+
+- **web-interface:** using konva as canvas library ([cc00ec8](https://github.com/reacto11mecha/nyerati/commit/cc00ec8b14c4e0ddfbbd2668d1151eb646ef5c03))
+
+### Performance Improvements
+
+- **web-interface:** stop canvas movement on cleanup lifecycle ([7d4cb20](https://github.com/reacto11mecha/nyerati/commit/7d4cb20e97e50ba966da9601bb2a17e81e0b9ba8))
+
 ## [1.3.1](https://github.com/reacto11mecha/nyerati/compare/@nyerati/web-interface@1.3.0...@nyerati/web-interface@1.3.1) (2021-12-30)
 
 ### Performance Improvements

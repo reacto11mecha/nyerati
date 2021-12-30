@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/reacto11mecha/nyerati/compare/@nyerati/shared@1.2.0...@nyerati/shared@1.2.1) (2021-12-30)
+
+### Performance Improvements
+
+- **nyerati:** separate cursor mover from main process ([6c79472](https://github.com/reacto11mecha/nyerati/commit/6c794723e2b19c55f71aded69bb2ca33d5e0b800))
+
 # [1.2.0](https://github.com/reacto11mecha/nyerati/compare/@nyerati/shared@1.1.0...@nyerati/shared@1.2.0) (2021-12-30)
 
 ### Features
