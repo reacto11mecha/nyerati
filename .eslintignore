@@ -1,1 +1,2 @@
-packages/**/dist
+packages/web-interface/dist
+packages/website/dist

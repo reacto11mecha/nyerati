@@ -3,9 +3,10 @@ const {
     constant: { port },
   },
   consoleListen,
+  updaterCheck,
 } = require("@nyerati/shared")(process);
 
-module.exports = async () => {
+module.exports = async (pkg) => {
   const chalk = await import("chalk").then((p) => p.default);
 
   const redOllie = chalk.hex("#D1070A");
@@ -13,7 +14,11 @@ module.exports = async () => {
 
   function childHandler(child, isUDP) {
     child.stdout.on("data", (text) => {
-      if (text.includes("Local")) consoleListen(isUDP);
+      if (text.includes("Local")) {
+        consoleListen(isUDP);
+
+        updaterCheck(pkg);
+      }
 
       if (text.includes("[Socket]")) {
         const event = text.split("[Socket]")[1].trim();

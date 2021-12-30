@@ -16,6 +16,8 @@ module.exports = fp((fastify, opts, done) => {
     root: web,
   });
 
+  // It'll send index.html inside @nyerati/web-interface dist folder
+  fastify.setNotFoundHandler((req, reply) => reply.sendFile("index.html"));
   fastify.get("*", (req, reply) =>
     reply.sendFile(path.join(web, "index.html"))
   );

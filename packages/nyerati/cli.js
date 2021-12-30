@@ -2,7 +2,7 @@
 const program = require("commander");
 const packageData = require("./package.json");
 
-const action = require("./lib/action")(__dirname);
+const action = require("./lib/action")(__dirname, packageData);
 
 program.version(packageData.version).name(Object.keys(packageData.bin)[0]);
 

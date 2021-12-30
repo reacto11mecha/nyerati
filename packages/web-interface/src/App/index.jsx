@@ -1,5 +1,5 @@
 import { lazy } from "solid-js";
-import { Routes, Route, Link } from "solid-app-router";
+import { Routes, Route } from "solid-app-router";
 
 import Navbar from "./Components/Navbar";
 import NotFound from "./Components/NotFound";
