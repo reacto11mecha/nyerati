@@ -103,6 +103,8 @@ export default function ReplayFile() {
   });
 
   onCleanup(() => {
+    stop();
+
     if (container) {
       window.removeEventListener("resize", updateStage);
     }
