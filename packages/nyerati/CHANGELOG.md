@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/reacto11mecha/nyerati/compare/@nyerati/nyerati@1.2.2...@nyerati/nyerati@1.3.0) (2021-12-30)
+
+### Bug Fixes
+
+- **nyerati:** set not found handler fallback to index.html ([0775638](https://github.com/reacto11mecha/nyerati/commit/0775638198dd93bf6bbe5920a7b4b6de5f9141b6))
+
+### Features
+
+- **nyerati:** implement `updaterChecker` ([e445dc3](https://github.com/reacto11mecha/nyerati/commit/e445dc3f20e720be04ff208c3b8ca843e84517a6))
+
 ## [1.2.2](https://github.com/reacto11mecha/nyerati/compare/@nyerati/nyerati@1.2.1...@nyerati/nyerati@1.2.2) (2021-12-29)
 
 ### Bug Fixes

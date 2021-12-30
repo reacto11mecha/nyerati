@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.1](https://github.com/reacto11mecha/nyerati/compare/@nyerati/web-interface@1.3.0...@nyerati/web-interface@1.3.1) (2021-12-30)
+
+### Performance Improvements
+
+- **web-interface:** optimizing performance with `requestAnimationFrame` ([ead529e](https://github.com/reacto11mecha/nyerati/commit/ead529e78b056db8cf1c22424574f1162a3839e1))
+
 # [1.3.0](https://github.com/reacto11mecha/nyerati/compare/@nyerati/web-interface@1.2.0...@nyerati/web-interface@1.3.0) (2021-12-28)
 
 ### Bug Fixes
