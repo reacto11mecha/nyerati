@@ -15,6 +15,9 @@ export default function ReplayFile() {
     buttonColor.play()
   );
 
+  const strokeCircle = useColorModeValue("black", "#171923");
+  const fillCircle = useColorModeValue("#4FD1C5", "#38B2AC");
+
   const {
     file,
     state,
@@ -87,8 +90,8 @@ export default function ReplayFile() {
         x: stage.width() / 2,
         y: stage.height() / 2,
         radius: 20,
-        fill: "red",
-        stroke: "black",
+        fill: fillCircle(),
+        stroke: strokeCircle(),
         strokeWidth: 1.5,
       });
 
