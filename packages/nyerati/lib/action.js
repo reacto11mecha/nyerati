@@ -6,8 +6,8 @@ const env = { ...process.env, NODE_ENV: "production" };
 const command = "node server.js";
 const udpCommand = "node udpOnly.js";
 
-module.exports = (cwd) => {
-  const handler = require("./handler")(cwd);
+module.exports = (cwd, pkg) => {
+  const handler = require("./handler")(pkg);
 
   return handler.then(({ childHandler }) => {
     const run = (option) => {
