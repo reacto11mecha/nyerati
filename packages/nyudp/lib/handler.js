@@ -1,10 +1,15 @@
 const { exec } = require("child_process");
 
-const { consoleListen: listen } = require("@nyerati/shared")(process);
+const { consoleListen: listen, updaterCheck } =
+  require("@nyerati/shared")(process);
 
-const childHandler = (redOllie, anyaHair, child, port) => {
+const childHandler = (redOllie, anyaHair, child, pkg, port) => {
   child.stdout.on("data", (text) => {
-    if (text.includes("Local")) listen(true);
+    if (text.includes("Local")) {
+      listen(true);
+
+      updaterCheck(pkg);
+    }
 
     if (text.includes("[Socket]")) {
       const event = text.split("[Socket]")[1].trim();
@@ -30,7 +35,7 @@ const childHandler = (redOllie, anyaHair, child, port) => {
   });
 };
 
-module.exports = async (cwd) => {
+module.exports = async (cwd, pkg) => {
   const chalk = await import("chalk").then((p) => p.default);
 
   const redOllie = chalk.hex("#D1070A");
@@ -47,7 +52,7 @@ module.exports = async (cwd) => {
       env: { ...process.env, PORT },
     });
 
-    childHandler(redOllie, anyaHair, child, PORT);
+    childHandler(redOllie, anyaHair, child, pkg, PORT);
   };
 
   return { run };

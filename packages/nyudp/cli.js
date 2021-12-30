@@ -2,7 +2,7 @@
 const program = require("commander");
 const packageData = require("./package.json");
 
-const handler = require("./lib/handler")(__dirname);
+const handler = require("./lib/handler")(__dirname, packageData);
 
 program.version(packageData.version).name(Object.keys(packageData.bin)[0]);
 
