@@ -2,10 +2,10 @@ import { createSignal, For } from "solid-js";
 import { Link } from "solid-app-router";
 import styles from "./Navbar.module.css";
 
-import { useDarkMode } from "../../Context/DarkMode";
+import { useDarkMode, darkModeInterface } from "@/Context/DarkMode";
 
 function Navbar() {
-  const { isDarkMode, setDarkMode } = useDarkMode();
+  const { isDarkMode, setDarkMode } = useDarkMode() as darkModeInterface;
   const [navLink] = createSignal([
     {
       href: "/",

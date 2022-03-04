@@ -1,16 +1,17 @@
 import { lazy } from "solid-js";
 import { Routes, Route } from "solid-app-router";
 
-import Navbar from "./Components/Navbar";
-import NotFound from "./Components/NotFound";
-import { useDarkMode } from "./Context/DarkMode";
+import Navbar from "@/Components/Navbar";
+import NotFound from "@/Components/Navbar";
 
-const TouchArea = lazy(() => import("./Components/TouchArea"));
-const ReplayList = lazy(() => import("./Components/ReplayList"));
-const ReplayFile = lazy(() => import("./Components/ReplayFile"));
+import { useDarkMode, darkModeInterface } from "@/Context/DarkMode";
+
+const TouchArea = lazy(() => import("@/Components/TouchArea"));
+const ReplayList = lazy(() => import("@/Components/ReplayList"));
+const ReplayFile = lazy(() => import("@/Components/ReplayFile"));
 
 function App() {
-  const { isDarkMode } = useDarkMode();
+  const { isDarkMode } = useDarkMode() as darkModeInterface;
 
   return (
     <div data-theme={isDarkMode() ? "dark" : "light"}>

@@ -2,8 +2,9 @@ import { createSignal, createEffect, Switch, Match, onCleanup } from "solid-js";
 import Konva from "konva";
 
 import styles from "./ReplayFile.module.css";
-import useReplay from "../../Hook/useReplay";
-import useColorModeValue from "../../Hook/useColorModeValue";
+
+import useReplay from "@/Hook/useReplay";
+import useColorModeValue from "@/Hook/useColorModeValue";
 
 export default function ReplayFile() {
   const stopButton = useColorModeValue("#F56565", "#822727");

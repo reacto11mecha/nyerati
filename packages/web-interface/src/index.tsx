@@ -6,7 +6,9 @@ import "./index.css";
 
 import App from "./App";
 
-import { ContextProvider } from "./App/Context/DarkMode";
+import { ContextProvider } from "@/Context/DarkMode";
+
+const root = document.getElementById("root")!;
 
 render(
   () => (
@@ -16,5 +18,5 @@ render(
       </ContextProvider>
     </Router>
   ),
-  document.getElementById("root")
+  root
 );

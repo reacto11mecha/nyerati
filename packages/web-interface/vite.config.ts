@@ -1,3 +1,4 @@
+import path from "path";
 import { defineConfig } from "vite";
 import solidPlugin from "vite-plugin-solid";
 import shared from "@nyerati/shared";
@@ -14,5 +15,12 @@ export default defineConfig({
     portDev: sharedValue.config.constant.dev
       ? JSON.stringify(sharedValue.config.constant.port)
       : JSON.stringify(""),
+  },
+  resolve: {
+    alias: {
+      "@/Components": path.resolve(__dirname, "./src/Components"),
+      "@/Context": path.resolve(__dirname, "./src/Context"),
+      "@/Hook": path.resolve(__dirname, "./src/Hook"),
+    },
   },
 });

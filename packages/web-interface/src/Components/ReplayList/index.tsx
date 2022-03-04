@@ -2,14 +2,18 @@ import { createSignal, onMount, Switch, Match, For } from "solid-js";
 import { Link } from "solid-app-router";
 import styles from "./ReplayList.module.css";
 
-import useColorModeValue from "../../Hook/useColorModeValue";
+import useColorModeValue from "@/Hook/useColorModeValue";
+
+interface validResponse {
+  nameFile: string;
+}
 
 const serverPath = import.meta.env.DEV
   ? "http://localhost:3000"
   : location.origin;
 
 export default function ReplayList() {
-  const [files, setFiles] = createSignal(null);
+  const [files, setFiles] = createSignal<null | validResponse[]>(null);
 
   const outerBorder = useColorModeValue("#aaa", "black");
   const bottomBorder = useColorModeValue("#aaa", "firebrick");
@@ -33,10 +37,10 @@ export default function ReplayList() {
           <footer>
             <Switch fallback={"Unexpected Error"}>
               <Match when={files() === null}>Loading.....</Match>
-              <Match when={Array.isArray(files()) && files().length < 1}>
+              <Match when={Array.isArray(files()) && files()!.length < 1}>
                 No recorded data found so far
               </Match>
-              <Match when={Array.isArray(files()) && files().length > 0}>
+              <Match when={Array.isArray(files()) && files()!.length > 0}>
                 <ol>
                   <For each={files()} fallback={<div>Processing data...</div>}>
                     {(item) => {

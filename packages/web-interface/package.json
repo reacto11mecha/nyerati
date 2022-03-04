@@ -18,16 +18,18 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
+    "tsc": "tsc",
     "start": "vite --port 3500",
     "dev": "vite --port 3500",
     "dev-host": "vite --host --port 3500",
-    "build": "vite build",
+    "build": "tsc && vite build",
     "prepublishOnly": "npm run build"
   },
   "bugs": {
     "url": "https://github.com/reacto11mecha/nyerati/issues"
   },
   "devDependencies": {
+    "typescript": "^4.6.2",
     "vite": "^2.7.3",
     "vite-plugin-solid": "^2.1.4"
   },

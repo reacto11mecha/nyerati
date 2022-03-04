@@ -6,9 +6,15 @@ import {
 } from "solid-js";
 import { useParams } from "solid-app-router";
 
-const millisToMinutesAndSeconds = (millis) => {
+export type playing = null | boolean;
+export interface coordinate {
+  x: undefined | number;
+  y: undefined | number;
+}
+
+const millisToMinutesAndSeconds = (millis: number): string => {
   const minutes = Math.floor(millis / 60000);
-  const seconds = ((millis % 60000) / 1000).toFixed(0);
+  const seconds = ((millis % 60000) / 1000).toFixed(0) as unknown as number;
 
   return `${minutes < 10 ? "0" : ""}${minutes}:${
     seconds < 10 ? "0" : ""
@@ -16,7 +22,7 @@ const millisToMinutesAndSeconds = (millis) => {
 };
 
 const { DEV: dev } = import.meta.env;
-const fetchFile = async (filename) =>
+const fetchFile = async (filename: string) =>
   (
     await fetch(
       dev
@@ -27,7 +33,7 @@ const fetchFile = async (filename) =>
     )
   ).json();
 
-const isObject = (obj) =>
+const isObject = (obj: object) =>
   Object.prototype.toString.call(obj) === "[object Object]";
 const isArrayOfObject = (data) =>
   Array.isArray(data) && data.map(isObject).every((e) => e === true);
@@ -38,7 +44,7 @@ const COORDINATE_INITIAL_STATE = {
   y: undefined,
 };
 
-let currentCoordinate = COORDINATE_INITIAL_STATE;
+let currentCoordinate: coordinate = COORDINATE_INITIAL_STATE;
 
 export default function useReplay() {
   const params = useParams();
@@ -50,8 +56,8 @@ export default function useReplay() {
     const data = file();
 
     if (isArrayOfObject(data) && state() === "LOADED") {
-      const firstTime = new Date(data[0].d);
-      const lastTime = new Date(data[data.length - 1].d);
+      const firstTime = new Date(data[0].d).getTime();
+      const lastTime = new Date(data[data.length - 1].d).getTime();
 
       return millisToMinutesAndSeconds(lastTime - firstTime);
     }
@@ -64,16 +70,16 @@ export default function useReplay() {
    * false => Paused
    * true => Playing
    */
-  const [playing, setPlaying] = createSignal(null);
-  const [position, setPosition] = createSignal(currentCoordinate);
+  const [playing, setPlaying] = createSignal<playing>(null);
+  const [position, setPosition] = createSignal<coordinate>(currentCoordinate);
 
-  const isPositionExist = createMemo(() => {
+  const isPositionExist = createMemo<boolean>(() => {
     const pos = position();
 
     return pos.x !== undefined && pos.y !== undefined;
   }, false);
 
-  const getEntry = (idx) => file()[idx];
+  const getEntry = (idx: number) => file()[idx];
 
   const play = () => setPlaying(true);
   const pause = () => setPlaying(false);
@@ -93,7 +99,7 @@ export default function useReplay() {
     }
   };
 
-  const processEntry = (entry, index) => {
+  const processEntry = (entry, index: number) => {
     index++;
     const nextEntry = getEntry(index);
 

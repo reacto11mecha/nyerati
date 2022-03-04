@@ -3,17 +3,28 @@ import {
   useContext,
   createEffect,
   createSignal,
+  Accessor,
 } from "solid-js";
 
-function darkModeStore() {
-  const initState = window.matchMedia("(prefers-color-scheme: dark)").matches;
+export interface darkModeInterface {
+  isDarkMode: Accessor<boolean>;
+  setDarkMode: <U extends boolean>(
+    v: (U extends Function ? never : U) | ((prev: boolean) => U)
+  ) => U;
+}
 
-  const [isDarkMode, setDarkMode] = createSignal(initState);
-  if (localStorage.theme) setDarkMode(JSON.parse(localStorage.theme));
+function darkModeStore() {
+  const initState: boolean = window.matchMedia(
+    "(prefers-color-scheme: dark)"
+  ).matches;
+
+  const [isDarkMode, setDarkMode] = createSignal<boolean>(initState);
+  if (localStorage.theme) setDarkMode(JSON.parse(localStorage.theme as string));
 
   createEffect(() => {
     localStorage.theme = JSON.stringify(isDarkMode());
   });
+
   return { isDarkMode, setDarkMode };
 }
 

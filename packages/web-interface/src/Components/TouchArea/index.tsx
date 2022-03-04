@@ -7,10 +7,10 @@ import {
   Match,
 } from "solid-js";
 import styles from "./TouchArea.module.css";
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 import screenfull from "screenfull";
 
-import useColorModeValue from "../../Hook/useColorModeValue";
+import useColorModeValue from "@/Hook/useColorModeValue";
 
 const { DEV: dev } = import.meta.env;
 
@@ -21,15 +21,15 @@ export default function TouchArea() {
     disconnected: useColorModeValue("#E53E3E", "#822727"),
   };
 
-  const [connection, setConnection] = createSignal(null);
+  const [connection, setConnection] = createSignal<null | boolean>(null);
   const [bgStatus, setBgStatus] = createSignal(bg.na());
 
   let touchArea;
-  let socket;
+  let socket: Socket;
 
   const connectionSetter = () => setConnection(socket.connected);
   const toggleFullScreen = (e) => {
-    e.target.blur();
+    (e.target as HTMLElement).blur();
     screenfull.toggle(touchArea, { navigationUI: "hide" });
   };
   const handler = (evt) =>
@@ -39,25 +39,13 @@ export default function TouchArea() {
     });
 
   onMount(() => {
-    let supportsPassive = false;
-    try {
-      let opts = Object.defineProperty({}, "passive", {
-        get: function () {
-          supportsPassive = true;
-        },
-      });
-      window.addEventListener("testPassive", null, opts);
-      window.removeEventListener("testPassive", null, opts);
-    } catch (e) {}
-
     socket = dev ? io(`http://${location.hostname}:${portDev}`) : io();
 
     socket.on("connect", connectionSetter);
     socket.on("disconnect", connectionSetter);
 
-    const opt = supportsPassive ? { passive: true } : false;
-    touchArea.addEventListener("touchstart", handler, opt);
-    touchArea.addEventListener("touchmove", handler, opt);
+    touchArea.addEventListener("touchstart", handler);
+    touchArea.addEventListener("touchmove", handler);
   });
 
   createEffect(() => {
@@ -80,8 +68,6 @@ export default function TouchArea() {
 
     touchArea.removeEventListener("touchstart", handler);
     touchArea.removeEventListener("touchmove", handler);
-
-    socket = null;
   });
 
   return (
@@ -97,7 +83,7 @@ export default function TouchArea() {
           <div className={styles.bottomSpace}>
             <button onClick={toggleFullScreen}>Toggle Fullscreen</button>
             <div
-              onClick={(e) => e.target.blur()}
+              onClick={(e) => (e.target as HTMLElement).blur()}
               style={`background-color: ${bgStatus()}`}
               className={`button ${styles.statusInfo}`}
             >
