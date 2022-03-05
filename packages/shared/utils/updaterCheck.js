@@ -15,6 +15,7 @@ module.exports = async (pkg) => {
             );
           }
         })
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
         .catch(() => {}),
     2500 // Prevent race condition consoleListen
   );
