@@ -5,7 +5,11 @@
   "author": "Ezra Khairan Permana <ezrakhairan123@gmail.com>",
   "homepage": "https://github.com/reacto11mecha/nyerati/tree/main/packages/shared#readme",
   "license": "MIT",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rm -rf ./dist && tsc"
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -24,5 +28,12 @@
     "robotjs": "^0.6.0",
     "string-similarity": "^4.0.4",
     "update-check": "^1.5.4"
+  },
+  "devDependencies": {
+    "@types/ip": "^1.1.0",
+    "@types/node": "^17.0.21",
+    "@types/qrcode-terminal": "^0.12.0",
+    "@types/string-similarity": "^4.0.0",
+    "typescript": "^4.6.2"
   }
 }

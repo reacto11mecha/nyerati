@@ -1,7 +1,17 @@
-const path = require("path");
-const os = require("os");
+import path from "path";
+import os from "os";
 
-module.exports = function (process) {
+export interface constantInterface {
+  port: number;
+  dev: boolean;
+  mainDir: string;
+  isRecording: boolean;
+  recordFolder: string;
+  recordText: string;
+  recordJson: () => string;
+}
+
+export default function constant(process: NodeJS.Process): constantInterface {
   // Main config constant
   const port = parseInt(process.env.PORT, 10) || 3000;
   const dev = process.env.NODE_ENV !== "production";
@@ -29,4 +39,4 @@ module.exports = function (process) {
     recordText,
     recordJson,
   };
-};
+}

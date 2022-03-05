@@ -1,16 +1,22 @@
-const qrcode = require("qrcode-terminal");
-const ip = require("ip");
+import qrcode from "qrcode-terminal";
+import ip from "ip";
 
-const getUSB = require("../utils/getUsbNWInterface");
+import getUSB from "../utils/getUsbNWInterface";
+import { ConfigInterface } from "../config";
 
 // NETWORK IP
 const usbNWIF = getUSB(); // USB Network Interface
 const LAN_IP = ip.address() !== "127.0.0.1" ? ip.address() : null;
 const USB_IP = ip.address(usbNWIF) !== "127.0.0.1" ? ip.address(usbNWIF) : null;
 
-module.exports =
-  ({ config }) =>
-  async (isUDP) => {
+export type consoleListenType = (isUDP: boolean) => Promise<void>;
+
+export default function consoleListen({
+  config,
+}: {
+  config: ConfigInterface;
+}): consoleListenType {
+  return async (isUDP: boolean) => {
     const boxen = await import("boxen").then((p) => p.default);
     const chalk = await import("chalk").then((p) => p.default);
 
@@ -32,10 +38,12 @@ module.exports =
   `;
 
     console.log(
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       boxen(text, { padding: { right: 6.5 }, borderColor: "#D1070A" })
     );
 
-    let qrcodeData = { port, connections: [] };
+    const qrcodeData = { port, connections: [] };
 
     if (LAN_IP) qrcodeData.connections.push({ type: "LAN", ip: LAN_IP });
     if (USB_IP) qrcodeData.connections.push({ type: "USB", ip: USB_IP });
@@ -63,3 +71,4 @@ module.exports =
 
     console.log(logs);
   };
+}

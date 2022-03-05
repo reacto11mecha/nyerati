@@ -1,8 +1,9 @@
-const os = require("os");
-const keys = Object.keys(os.networkInterfaces());
-const stringSimilarity = require("string-similarity");
+import os from "os";
+import stringSimilarity from "string-similarity";
 
-module.exports = () => {
+const keys = Object.keys(os.networkInterfaces());
+
+export default function getUsbNWInterface() {
   const matches = stringSimilarity.findBestMatch("usb", keys);
   return matches.bestMatch.target;
-};
+}

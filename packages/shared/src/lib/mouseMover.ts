@@ -1,15 +1,23 @@
-const fs = require("fs");
-const path = require("path");
-const { fork } = require("child_process");
+import fs from "fs";
+import path from "path";
+import { fork } from "child_process";
 
-const moveMouseWrapper =
-  ({ config }, process) =>
-  () => {
+import { message } from "../functions/mover";
+import { ConfigInterface } from "../config";
+
+export type mouseMoverType = () => (data: message) => void;
+
+export default function mouseMover(
+  { config }: { config: ConfigInterface },
+  process: NodeJS.Process
+): mouseMoverType {
+  return () => {
     const mover = fork("mover", {
       cwd: path.join(__dirname, "../functions"),
     });
 
-    if (!config.constant.isRecording) return (data) => mover.send(data);
+    if (!config.constant.isRecording)
+      return (data: message) => mover.send(data);
 
     const recordText = config.constant.recordText;
     const writer = fork("writer", {
@@ -26,10 +34,9 @@ const moveMouseWrapper =
       fs.writeFileSync(recordText, "");
     }
 
-    return (data) => {
+    return (data: message) => {
       mover.send(data);
       writer.send({ ...data, d: Date.now() });
     };
   };
-
-module.exports = moveMouseWrapper;
+}

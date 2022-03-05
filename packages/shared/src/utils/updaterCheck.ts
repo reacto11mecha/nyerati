@@ -1,6 +1,13 @@
-const checkForUpdate = require("update-check");
+import checkForUpdate from "update-check";
 
-module.exports = async (pkg) => {
+export interface packageInterface {
+  name: string;
+  version: string;
+}
+
+export default async function updaterCheck(
+  pkg: packageInterface
+): Promise<void> {
   const chalk = await import("chalk").then((p) => p.default);
 
   setTimeout(
@@ -19,4 +26,4 @@ module.exports = async (pkg) => {
         .catch(() => {}),
     2500 // Prevent race condition consoleListen
   );
-};
+}
