@@ -129,6 +129,7 @@ export default function ReplayFile() {
               </h3>
             </Match>
             <Match when={state() === "LOADED"}>
+              {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
               {/* @ts-ignore */}
               <div ref={container} className={styles.topSpace}></div>
               <div className={styles.bottomSpace}>

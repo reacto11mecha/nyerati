@@ -9,7 +9,7 @@ import {
 export interface darkModeInterface {
   isDarkMode: Accessor<boolean>;
   setDarkMode: <U extends boolean>(
-    v: (U extends Function ? never : U) | ((prev: boolean) => U)
+    v: (U extends () => void ? never : U) | ((prev: boolean) => U)
   ) => U;
 }
 
@@ -40,4 +40,5 @@ export function ContextProvider(props) {
   );
 }
 
-export const useDarkMode = () => useContext(DarkModeContext);
+export const useDarkMode = () =>
+  useContext(DarkModeContext) as darkModeInterface;

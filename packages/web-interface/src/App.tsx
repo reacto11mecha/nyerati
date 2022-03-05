@@ -4,14 +4,14 @@ import { Routes, Route } from "solid-app-router";
 import Navbar from "@/Components/Navbar";
 import NotFound from "@/Components/Navbar";
 
-import { useDarkMode, darkModeInterface } from "@/Context/DarkMode";
+import { useDarkMode } from "@/Context/DarkMode";
 
 const TouchArea = lazy(() => import("@/Components/TouchArea"));
 const ReplayList = lazy(() => import("@/Components/ReplayList"));
 const ReplayFile = lazy(() => import("@/Components/ReplayFile"));
 
 function App() {
-  const { isDarkMode } = useDarkMode() as darkModeInterface;
+  const { isDarkMode } = useDarkMode();
 
   return (
     <div data-theme={isDarkMode() ? "dark" : "light"}>

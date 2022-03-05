@@ -37,10 +37,14 @@ export default function ReplayList() {
           <footer>
             <Switch fallback={"Unexpected Error"}>
               <Match when={files() === null}>Loading.....</Match>
-              <Match when={Array.isArray(files()) && files()!.length < 1}>
+              <Match
+                when={Array.isArray(files()) && (files() as []).length < 1}
+              >
                 No recorded data found so far
               </Match>
-              <Match when={Array.isArray(files()) && files()!.length > 0}>
+              <Match
+                when={Array.isArray(files()) && (files() as []).length > 0}
+              >
                 <ol>
                   <For each={files()} fallback={<div>Processing data...</div>}>
                     {(item) => {

@@ -2,10 +2,10 @@ import { createSignal, For } from "solid-js";
 import { Link } from "solid-app-router";
 import styles from "./Navbar.module.css";
 
-import { useDarkMode, darkModeInterface } from "@/Context/DarkMode";
+import { useDarkMode } from "@/Context/DarkMode";
 
 function Navbar() {
-  const { isDarkMode, setDarkMode } = useDarkMode() as darkModeInterface;
+  const { isDarkMode, setDarkMode } = useDarkMode();
   const [navLink] = createSignal([
     {
       href: "/",
@@ -25,6 +25,7 @@ function Navbar() {
         <span>Nyerati</span>
       </Link>
 
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
       {/* @ts-ignore */}
       <input id="bmenub" type="checkbox" className="show" ref={checkbox} />
       <label for="bmenub" className="burger pseudo button">
