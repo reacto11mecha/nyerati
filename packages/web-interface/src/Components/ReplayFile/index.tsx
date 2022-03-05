@@ -3,8 +3,12 @@ import Konva from "konva";
 
 import styles from "./ReplayFile.module.css";
 
-import useReplay from "@/Hook/useReplay";
+import useReplay, { invalidDownload } from "@/Hook/useReplay";
 import useColorModeValue from "@/Hook/useColorModeValue";
+
+import { Stage } from "konva/lib/Stage";
+import { Group } from "konva/lib/Group";
+import { Shape, ShapeConfig } from "konva/lib/Shape";
 
 export default function ReplayFile() {
   const stopButton = useColorModeValue("#F56565", "#822727");
@@ -30,9 +34,9 @@ export default function ReplayFile() {
     toggle,
   } = useReplay();
 
-  let container;
-  let stage;
-  let circle;
+  let container: HTMLDivElement;
+  let stage: Stage;
+  let circle: Group | Shape<ShapeConfig>;
 
   const updateStage = () => {
     if (stage) {
@@ -120,9 +124,12 @@ export default function ReplayFile() {
               <p className={styles.centered}>Loading...</p>
             </Match>
             <Match when={state() === "ERROR"}>
-              <h3 className={styles.centered}>{file().message}</h3>
+              <h3 className={styles.centered}>
+                {(file() as invalidDownload).message}
+              </h3>
             </Match>
             <Match when={state() === "LOADED"}>
+              {/* @ts-ignore */}
               <div ref={container} className={styles.topSpace}></div>
               <div className={styles.bottomSpace}>
                 <button

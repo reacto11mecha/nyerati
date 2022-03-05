@@ -17,7 +17,7 @@ function Navbar() {
     },
   ]);
 
-  let checkbox;
+  let checkbox: HTMLInputElement;
 
   return (
     <nav className={styles.automaticChangeColor}>
@@ -25,6 +25,7 @@ function Navbar() {
         <span>Nyerati</span>
       </Link>
 
+      {/* @ts-ignore */}
       <input id="bmenub" type="checkbox" className="show" ref={checkbox} />
       <label for="bmenub" className="burger pseudo button">
         &#8801;

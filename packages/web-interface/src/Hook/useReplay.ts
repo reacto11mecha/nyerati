@@ -12,6 +12,17 @@ export interface coordinate {
   y: undefined | number;
 }
 
+export interface invalidDownload {
+  message: string;
+}
+export interface validDownload {
+  x: number;
+  y: number;
+  d: number;
+  diff: number;
+}
+export type fetchedData = Array<validDownload> | invalidDownload;
+
 const millisToMinutesAndSeconds = (millis: number): string => {
   const minutes = Math.floor(millis / 60000);
   const seconds = ((millis % 60000) / 1000).toFixed(0) as unknown as number;
@@ -22,7 +33,7 @@ const millisToMinutesAndSeconds = (millis: number): string => {
 };
 
 const { DEV: dev } = import.meta.env;
-const fetchFile = async (filename: string) =>
+const fetchFile = async (filename: string): Promise<fetchedData> =>
   (
     await fetch(
       dev
@@ -35,10 +46,10 @@ const fetchFile = async (filename: string) =>
 
 const isObject = (obj: object) =>
   Object.prototype.toString.call(obj) === "[object Object]";
-const isArrayOfObject = (data) =>
+const isArrayOfObject = (data: Array<object>) =>
   Array.isArray(data) && data.map(isObject).every((e) => e === true);
 
-let updaterTimeout;
+let updaterTimeout: NodeJS.Timeout;
 const COORDINATE_INITIAL_STATE = {
   x: undefined,
   y: undefined,
@@ -55,11 +66,20 @@ export default function useReplay() {
   const formattedDuration = createMemo(() => {
     const data = file();
 
-    if (isArrayOfObject(data) && state() === "LOADED") {
-      const firstTime = new Date(data[0].d).getTime();
-      const lastTime = new Date(data[data.length - 1].d).getTime();
+    if (
+      isArrayOfObject(data as unknown as validDownload[]) &&
+      state() === "LOADED"
+    ) {
+      const firstTime = new Date((data as unknown as validDownload[])[0].d);
+      const lastTime = new Date(
+        (data as unknown as validDownload[])[
+          (data as unknown as Array<validDownload>).length - 1
+        ].d
+      );
 
-      return millisToMinutesAndSeconds(lastTime - firstTime);
+      return millisToMinutesAndSeconds(
+        lastTime.getTime() - firstTime.getTime()
+      );
     }
 
     return null;
@@ -79,7 +99,8 @@ export default function useReplay() {
     return pos.x !== undefined && pos.y !== undefined;
   }, false);
 
-  const getEntry = (idx: number) => file()[idx];
+  const getEntry = (idx: number) =>
+    (file() as unknown as Array<validDownload>)[idx];
 
   const play = () => setPlaying(true);
   const pause = () => setPlaying(false);
@@ -99,7 +120,7 @@ export default function useReplay() {
     }
   };
 
-  const processEntry = (entry, index: number) => {
+  const processEntry = (entry: validDownload, index: number) => {
     index++;
     const nextEntry = getEntry(index);
 
@@ -132,7 +153,7 @@ export default function useReplay() {
         requestAnimationFrame(() => processEntry(data, 0));
       } else {
         const index =
-          file().findIndex(
+          (file() as unknown as Array<validDownload>).findIndex(
             (c) => c.x === currentCoordinate.x && c.y === currentCoordinate.y
           ) + 1;
 
@@ -149,12 +170,12 @@ export default function useReplay() {
         break;
       }
 
-      case isObject(file()): {
+      case isObject(file() as invalidDownload): {
         setState("ERROR");
         break;
       }
 
-      case isArrayOfObject(file()): {
+      case isArrayOfObject(file() as unknown as Array<fetchedData>): {
         setState("LOADED");
         break;
       }
