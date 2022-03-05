@@ -5,7 +5,6 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 # 0.1.0 (2021-12-21)
 
-
 ### Features
 
-* init website ([2ab887d](https://github.com/reacto11mecha/nyerati/commit/2ab887dbd82703edb2fb148ca778d4d6cb480eaa))
+- init website ([2ab887d](https://github.com/reacto11mecha/nyerati/commit/2ab887dbd82703edb2fb148ca778d4d6cb480eaa))
