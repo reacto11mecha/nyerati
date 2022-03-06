@@ -1,4 +1,5 @@
-const dgram = require("dgram");
+import dgram from "dgram";
+import shared from "@nyerati/shared";
 
 const {
   config: {
@@ -6,7 +7,7 @@ const {
   },
   consoleListen,
   lib,
-} = require("@nyerati/shared")(process);
+} = shared(process);
 
 let user = [];
 

@@ -1,9 +1,14 @@
 #!/usr/bin/env node
-const program = require("commander");
-const packageData = require("./package.json");
+import fs from "fs";
+import path from "path";
+import { Command } from "commander";
+import _handler from "./lib/handler";
 
-const handler = require("./lib/handler")(__dirname, packageData);
+const packagePath = path.join(__dirname, "../package.json");
+const packageData = JSON.parse(fs.readFileSync(packagePath, "utf8"));
+const handler = _handler(__dirname, packageData);
 
+const program = new Command();
 program.version(packageData.version).name(Object.keys(packageData.bin)[0]);
 
 handler.then(({ run }) => {

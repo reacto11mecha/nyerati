@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "rootDir": "src",
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "dist"
+  }
+}

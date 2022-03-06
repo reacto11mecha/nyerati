@@ -5,7 +5,8 @@
   "author": "Ezra Khairan Permana <ezrakhairan123@gmail.com>",
   "homepage": "https://github.com/reacto11mecha/nyerati/tree/main/packages/nyudp#readme",
   "license": "MIT",
-  "main": "udp.js",
+  "main": "dist/udp.js",
+  "types": "dist/udp.d.ts",
   "publishConfig": {
     "access": "public"
   },
@@ -15,10 +16,11 @@
   },
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
-    "start": "node ."
+    "start": "node .",
+    "build": "rm -rf ./dist && tsc"
   },
   "bin": {
-    "nyudp": "./cli.js"
+    "nyudp": "./dist/cli.js"
   },
   "bugs": {
     "url": "https://github.com/reacto11mecha/nyerati/issues"
@@ -28,5 +30,9 @@
     "chalk": "^5.0.0",
     "clear": "^0.1.0",
     "commander": "^8.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.21",
+    "typescript": "^4.6.2"
   }
 }
